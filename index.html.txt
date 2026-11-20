@@ -1,0 +1,1795 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>한국 현대사 맥락 & 암기 노트 (1944~2018)</title>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --text: #0f172a;
+      --text-sub: #475569;
+      --border: #e2e8f0;
+      --primary: #2563eb;
+      --primary-light: #eff6ff;
+      --accent: #7c3aed;
+      --accent-light: #f5f3ff;
+      --success: #059669;
+      --success-light: #ecfdf5;
+      --warning: #d97706;
+      --warning-light: #fffbeb;
+      --danger: #dc2626;
+      --danger-light: #fef2f2;
+      --radius: 14px;
+      --shadow: 0 4px 20px rgba(15, 23, 42, 0.05);
+    }
+
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      padding-bottom: 80px;
+    }
+
+
+    /* 숨김 라디오 (순수 CSS 탭 전환: JS가 꺼진 뷰어에서도 100% 작동) */
+    .tab-radio {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+
+    /* 상단 헤더 */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 20px;
+    }
+    .header-inner {
+      max-width: 1040px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .brand h1 {
+      font-size: 1.2rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .badge-year {
+      background: var(--primary-light);
+      color: var(--primary);
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 999px;
+    }
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .search-box {
+      padding: 7px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.88rem;
+      width: 200px;
+      outline: none;
+    }
+    .search-box:focus { border-color: var(--primary); }
+    .btn {
+      padding: 7px 13px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .btn:hover { background: #f1f5f9; }
+    .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+    .btn-primary:hover { background: #1d4ed8; }
+    .btn-blind-active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+
+    /* 진행률 바 */
+    .progress-wrap {
+      max-width: 1040px;
+      margin: 16px auto 0;
+      padding: 0 20px;
+    }
+    .progress-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      box-shadow: var(--shadow);
+    }
+    .progress-bar-bg {
+      flex: 1;
+      height: 10px;
+      background: #e2e8f0;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+
+    /* 탭 네비게이션 (label 기반) */
+    .nav-tabs {
+      max-width: 1040px;
+      margin: 18px auto;
+      padding: 0 20px;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+    }
+    .tab-btn {
+      padding: 10px 16px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      font-weight: 700;
+      font-size: 0.92rem;
+      color: var(--text-sub);
+      cursor: pointer;
+      white-space: nowrap;
+      user-select: none;
+      transition: all 0.15s;
+    }
+    .tab-btn:hover { background: #f1f5f9; }
+
+
+    #r-tab-1:checked ~ .nav-tabs label[for="r-tab-1"],
+    #r-tab-2:checked ~ .nav-tabs label[for="r-tab-2"],
+    #r-tab-3:checked ~ .nav-tabs label[for="r-tab-3"],
+    #r-tab-4:checked ~ .nav-tabs label[for="r-tab-4"],
+    #r-tab-5:checked ~ .nav-tabs label[for="r-tab-5"] {
+      background: var(--text);
+      color: #fff;
+      border-color: var(--text);
+    }
+
+
+    /* 메인 컨테이너 & 순수 CSS 패널 표시 */
+    main {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    .tab-panel { display: none; }
+
+
+    #r-tab-1:checked ~ main #tab-context,
+    #r-tab-2:checked ~ main #tab-mnemonic,
+    #r-tab-3:checked ~ main #tab-notes,
+    #r-tab-4:checked ~ main #tab-quiz,
+    #r-tab-5:checked ~ main #tab-add {
+      display: block;
+    }
+
+
+    /* 공통 카드 */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px;
+      margin-bottom: 18px;
+      box-shadow: var(--shadow);
+    }
+    .card-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .era-tag {
+      font-size: 0.76rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 6px;
+      background: var(--primary-light);
+      color: var(--primary);
+    }
+
+
+    .story-intro {
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      color: #fff;
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+    .story-intro h2 { font-size: 1.3rem; margin-bottom: 8px; }
+    .story-intro p { color: #cbd5e1; font-size: 0.95rem; }
+
+
+    /* 2탭: 암기 공식 & 비교표 */
+    .mnemonic-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .mnemonic-card {
+      background: var(--surface);
+      border: 2px solid #ddd6fe;
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+    }
+    .mnemonic-formula {
+      background: var(--accent-light);
+      color: var(--accent);
+      font-size: 1.15rem;
+      font-weight: 900;
+      padding: 10px 14px;
+      border-radius: 10px;
+      margin: 10px 0;
+      letter-spacing: 0.02em;
+    }
+    .mnemonic-decode {
+      font-size: 0.9rem;
+      color: var(--text-sub);
+    }
+    .mnemonic-decode strong { color: var(--text); }
+
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      font-size: 0.9rem;
+    }
+    th, td {
+      border: 1px solid var(--border);
+      padding: 11px 13px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      background: #f1f5f9;
+      font-weight: 700;
+      width: 24%;
+    }
+
+
+    /* 3탭: 정리 노트 & 빈칸(Cloze) 시스템 */
+    .filter-bar {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .filter-pill {
+      padding: 6px 13px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      font-size: 0.84rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .filter-pill.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+    .note-context-box {
+      background: #f8fafc;
+      border-left: 3px solid var(--accent);
+      padding: 10px 14px;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      color: var(--text-sub);
+      margin-bottom: 12px;
+    }
+    .note-list {
+      padding-left: 18px;
+      margin-bottom: 12px;
+    }
+    .note-list li {
+      margin-bottom: 6px;
+      font-size: 0.95rem;
+    }
+    .exam-tip {
+      background: var(--warning-light);
+      border: 1px solid #fde68a;
+      color: #92400e;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 600;
+    }
+
+
+    .cloze {
+      background: #fef08a;
+      color: #854d0e;
+      font-weight: 700;
+      padding: 1px 5px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    body.blind-mode .cloze {
+      background: #334155;
+      color: transparent;
+      user-select: none;
+    }
+    body.blind-mode .cloze.revealed {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+
+    /* 4탭: 퀴즈 & 순서 배열 */
+    .quiz-option {
+      display: block;
+      width: 100%;
+      text-align: left;
+      padding: 12px 15px;
+      margin-bottom: 8px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--surface);
+      font-size: 0.94rem;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+    .quiz-option:hover { background: #f8fafc; border-color: var(--primary); }
+    .quiz-option.correct { background: var(--success-light); border-color: var(--success); color: var(--success); font-weight: 700; }
+    .quiz-option.wrong { background: var(--danger-light); border-color: var(--danger); color: var(--danger); }
+
+
+    .order-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 14px;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 8px;
+      font-weight: 600;
+      font-size: 0.92rem;
+    }
+
+
+    /* 5탭: 자료 추가 폼 */
+    .form-group { margin-bottom: 14px; }
+    .form-group label { display: block; font-weight: 700; font-size: 0.9rem; margin-bottom: 5px; }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 0.92rem;
+    }
+    .form-group textarea { min-height: 100px; resize: vertical; }
+
+
+    @media (max-width: 640px) {
+      .search-box { width: 100%; }
+      .header-inner { flex-direction: column; align-items: stretch; }
+    }
+  </style>
+</head>
+<body>
+
+
+<input type="radio" name="main-tabs" id="r-tab-1" class="tab-radio" checked />
+<input type="radio" name="main-tabs" id="r-tab-2" class="tab-radio" />
+<input type="radio" name="main-tabs" id="r-tab-3" class="tab-radio" />
+<input type="radio" name="main-tabs" id="r-tab-4" class="tab-radio" />
+<input type="radio" name="main-tabs" id="r-tab-5" class="tab-radio" />
+
+
+<header>
+  <div class="header-inner">
+    <div class="brand">
+      <h1>🇰🇷 한국 현대사 맥락·암기 노트</h1>
+      <span class="badge-year">1944 ~ 2018</span>
+    </div>
+    <div class="controls">
+      <input type="text" id="searchInput" class="search-box" placeholder="키워드 검색 (예: 반민특위, 유신)" />
+      <button type="button" id="blindToggleBtn" class="btn" onclick="toggleBlindMode()">🙈 암기 모드 (빈칸 가리기)</button>
+    </div>
+  </div>
+</header>
+
+
+<div class="progress-wrap">
+  <div class="progress-card">
+    <div style="font-size:0.9rem; font-weight:700; white-space:nowrap;">
+      📚 암기 진행률: <span id="progressText" style="color:var(--primary);">0 / 14 단원</span>
+    </div>
+    <div class="progress-bar-bg">
+      <div id="progressBar" class="progress-bar-fill"></div>
+    </div>
+  </div>
+</div>
+
+
+<nav class="nav-tabs">
+  <label for="r-tab-1" class="tab-btn">🧭 1. 왕초보 맥락 지도</label>
+  <label for="r-tab-2" class="tab-btn">🧠 2. 암기 공식 & 비교표</label>
+  <label for="r-tab-3" class="tab-btn">📝 3. 단원별 정리노트</label>
+  <label for="r-tab-4" class="tab-btn">⚡ 4. 실전 퀴즈 & 순서훈련</label>
+  <label for="r-tab-5" class="tab-btn">➕ 5. 자료 추가 & HTML 저장</label>
+</nav>
+
+
+<main>
+  <section id="tab-context" class="tab-panel">
+    <div class="story-intro">
+      <h2>🧭 왕초보 전용: 한국 현대사 '큰 틀' 3분 만에 잡기</h2>
+      <p>교과서 용어부터 외우면 머리가 터집니다. <strong>① 누가 권력을 잡았는지(주인공)</strong> → <strong>② 어려운 단어 뜻</strong> → <strong>③ 쉬운 줄거리</strong> 순서대로만 보세요!</p>
+    </div>
+
+
+    <!-- STEP 1: 역대 권력자(주인공) 지도 -->
+    <div class="card">
+      <div class="card-title">
+        <span>STEP 1. 현대사는 결국 '권력자(대통령)' 바뀌는 드라마입니다</span>
+        <span class="era-tag">전체 뼈대</span>
+      </div>
+      <p style="font-size:0.92rem; color:var(--text-sub); margin-bottom:14px;">
+        어느 사건이 나오든 <strong>"아, 이거 누구 대통령 때 얘기구나!"</strong>만 연결되면 절반은 맞춘 겁니다.
+      </p>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:12px;">
+        <div style="border:1px solid var(--border); border-top:4px solid #64748b; border-radius:10px; padding:14px; background:#f8fafc;">
+          <div style="font-size:0.78rem; font-weight:800; color:#475569;">1945 ~ 1948 (3년)</div>
+          <div style="font-size:1.05rem; font-weight:800; margin:2px 0 6px;">주인 없는 땅 (미·소 군정)</div>
+          <p style="font-size:0.87rem; color:var(--text-sub);">일본이 물러간 뒤 남쪽은 미국, 북쪽은 소련이 관리하면서 <strong>남북이 둘로 갈라진 시기</strong></p>
+        </div>
+
+
+        <div style="border:1px solid var(--border); border-top:4px solid #2563eb; border-radius:10px; padding:14px; background:#eff6ff;">
+          <div style="font-size:0.78rem; font-weight:800; color:#1d4ed8;">1948 ~ 1960 (12년) · 제1공화국</div>
+          <div style="font-size:1.05rem; font-weight:800; margin:2px 0 6px;">1번 주인공: 이승만</div>
+          <p style="font-size:0.87rem; color:var(--text-sub);">초대 대통령. <strong>6·25 전쟁</strong>을 겪고, 법을 고쳐가며 장기 독재하다가 <strong>4·19 혁명</strong>으로 쫓겨남.</p>
+        </div>
+
+
+        <div style="border:1px solid var(--border); border-top:4px solid #10b981; border-radius:10px; padding:14px; background:#ecfdf5;">
+          <div style="font-size:0.78rem; font-weight:800; color:#047857;">1960 ~ 1961 (약 1년) · 제2공화국</div>
+          <div style="font-size:1.05rem; font-weight:800; margin:2px 0 6px;">2번 주인공: 장면 내각</div>
+          <p style="font-size:0.87rem; color:var(--text-sub);">이승만을 쫓아낸 뒤 들어선 <strong>민주 정부</strong>. 하지만 혼란을 틈타 1년 만에 군인(박정희)에게 정권을 뺏김.</p>
+        </div>
+
+
+        <div style="border:1px solid var(--border); border-top:4px solid #d97706; border-radius:10px; padding:14px; background:#fffbeb;">
+          <div style="font-size:0.78rem; font-weight:800; color:#b45309;">1961 ~ 1979 (18년) · 제3·4공화국</div>
+          <div style="font-size:1.05rem; font-weight:800; margin:2px 0 6px;">3번 주인공: 박정희 (군인 출신)</div>
+          <p style="font-size:0.87rem; color:var(--text-sub);">쿠데타(5·16)로 집권. <strong>경제 개발</strong>은 성공시켰으나, 죽을 때까지 대통령 하려고(<strong>유신</strong>) 독재하다 부하 총에 맞아 사망(10·26).</p>
+        </div>
+
+
+        <div style="border:1px solid var(--border); border-top:4px solid #dc2626; border-radius:10px; padding:14px; background:#fef2f2;">
+          <div style="font-size:0.78rem; font-weight:800; color:#b91c1c;">1979 ~ 1987 (8년) · 제5공화국</div>
+          <div style="font-size:1.05rem; font-weight:800; margin:2px 0 6px;">4번 주인공: 전두환 (신군부)</div>
+          <p style="font-size:0.87rem; color:var(--text-sub);">박정희 사망 직후 또 쿠데타(12·12)로 집권. <strong>5·18 광주</strong>를 탄압했으나 1987년 <strong>6월 민주항쟁</strong>에 항복함.</p>
+        </div>
+
+
+        <div style="border:1px solid var(--border); border-top:4px solid #7c3aed; border-radius:10px; padding:14px; background:#f5f3ff;">
+          <div style="font-size:0.78rem; font-weight:800; color:#6d28d9;">1987 ~ 2018 · 제6공화국 (현재)</div>
+          <div style="font-size:1.05rem; font-weight:800; margin:2px 0 6px;">5번 주인공: 국민이 직접 뽑은 대통령들</div>
+          <p style="font-size:0.87rem; color:var(--text-sub);">드디어 <strong>5년 단임 직선제</strong> 시작! 노태우 → 김영삼(IMF) → 김대중(첫 정권교체) → 노무현 → 이명박 → 박근혜 → 문재인.</p>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- STEP 2: 교과서 외계어 1줄 번역기 -->
+    <div class="card">
+      <div class="card-title">
+        <span>STEP 2. 교과서 외계어 1줄 번역기 (모르면 글이 안 읽히는 단어들)</span>
+        <span class="era-tag">기초 개념</span>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:10px; margin-top:8px;">
+        <div style="background:#f8fafc; padding:12px 14px; border-radius:10px; border:1px solid var(--border);">
+          <strong>📌 개헌 (헌법 개정)</strong>
+          <p style="font-size:0.88rem; color:var(--text-sub); margin-top:3px;">나라의 최고 규칙인 '헌법'을 고치는 것. 독재자들이 <strong>"나 대통령 한 번 더 할래!"</strong> 하려고 규칙을 바꿀 때 주로 나옵니다.</p>
+        </div>
+        <div style="background:#f8fafc; padding:12px 14px; border-radius:10px; border:1px solid var(--border);">
+          <strong>📌 간선제 vs 직선제</strong>
+          <p style="font-size:0.88rem; color:var(--text-sub); margin-top:3px;"><strong>간선제</strong>는 국회의원이나 대표 몇 명이 대통령을 뽑는 것(독재자가 매수하기 쉬움). <strong>직선제</strong>는 우리 국민이 직접 투표해서 뽑는 것!</p>
+        </div>
+        <div style="background:#f8fafc; padding:12px 14px; border-radius:10px; border:1px solid var(--border);">
+          <strong>📌 비상계엄 (계엄령)</strong>
+          <p style="font-size:0.88rem; color:var(--text-sub); margin-top:3px;">전쟁이나 큰 혼란을 핑계로 <strong>군대가 경찰 대신 거리를 통제</strong>하고, 시위·뉴스·국회를 싹 막아버리는 비상 상태입니다.</p>
+        </div>
+        <div style="background:#f8fafc; padding:12px 14px; border-radius:10px; border:1px solid var(--border);">
+          <strong>📌 좌익 vs 우익</strong>
+          <p style="font-size:0.88rem; color:var(--text-sub); margin-top:3px;"><strong>좌익</strong>은 평등·분배(사회주의·소련/북한 쪽), <strong>우익</strong>은 자유·반공(자본주의·미국/남한 쪽)을 중시하는 정치 세력입니다.</p>
+        </div>
+        <div style="background:#f8fafc; padding:12px 14px; border-radius:10px; border:1px solid var(--border);">
+          <strong>📌 신탁 통치</strong>
+          <p style="font-size:0.88rem; color:var(--text-sub); margin-top:3px;">미국·소련 등 강대국이 "한국은 아직 혼자 나라 운영하기 힘드니 최대 5년간 우리가 대신 관리해 줄게"라고 한 계획입니다.</p>
+        </div>
+        <div style="background:#f8fafc; padding:12px 14px; border-radius:10px; border:1px solid var(--border);">
+          <strong>📌 쿠데타 (군사 정변)</strong>
+          <p style="font-size:0.88rem; color:var(--text-sub); margin-top:3px;">군인들이 총과 탱크를 몰고 나와 <strong>강제로 정부를 무너뜨리고 권력을 빼앗는 일</strong> (5·16 군사 정변, 12·12 사태).</p>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- STEP 3: 웹툰처럼 읽는 5막 스토리 -->
+    <div class="card">
+      <div class="card-title">
+        <span>제1막 (1945~1948). 일본한테 해방됐는데 왜 남북이 갈라졌을까?</span>
+        <span class="era-tag">해방과 분단</span>
+      </div>
+      <div style="font-size:0.93rem; line-height:1.75; color:var(--text);">
+        <p style="margin-bottom:8px;">
+          <strong>① 기쁨도 잠시, 반갈죽:</strong> 1945년 8월 15일 일본이 항복하자, 국내에서는 <strong>여운형</strong>이 미리 조직한 <span class="era-tag">조선건국준비위원회(건준)</span>를 통해 새 나라를 세우려 했습니다. 그런데 일본군 무장 해제를 핑계로 북쪽엔 소련군, 남쪽엔 미군이 들어오면서 <strong>38도선</strong>이 그어졌습니다.
+        </p>
+        <p style="margin-bottom:8px;">
+          <strong>② 찬탁 vs 반탁 싸움:</strong> 미·영·소 외무장관들이 모여 "한국에 임시정부를 세워주되 최대 5년간 강대국이 대신 관리(<span class="era-tag">신탁 통치</span>)하자"고 결정했습니다(<span class="era-tag">모스크바 3국 외상 회의</span>). 우익(이승만·김구)은 "또 식민지 하라는 거냐!"며 <strong>반대(반탁)</strong>했고, 좌익은 "임시정부를 세워준다니 <strong>찬성(찬탁)</strong>하자"며 둘로 갈라져 싸웠습니다.
+        </p>
+        <p>
+          <strong>③ 통일 실패와 남북 단독 정부:</strong> 미국과 소련의 협상(<span class="era-tag">미·소 공동 위원회</span>)이 결렬되자 이승만은 "남한만이라도 먼저 정부를 세우자(<span class="era-tag">정읍 발언</span>)"고 주장했습니다. 여운형·김규식의 <span class="era-tag">좌우합작 운동</span>과 김구·김규식의 <span class="era-tag">남북 협상</span>도 실패하면서, 결국 남한만 <span class="era-tag">5·10 총선거</span>를 치러 <strong>1948년 8월 15일 대한민국 정부</strong>가 수립되었습니다. (이 과정에서 단독 선거에 반대한 <span class="era-tag">제주 4·3 사건</span>과 진압 출동을 거부한 <span class="era-tag">여수·순천 10·19 사건</span>이 발생했습니다.)
+        </p>
+      </div>
+    </div>
+
+
+    <div class="card">
+      <div class="card-title">
+        <span>제2막 (1950~1960). 6·25 전쟁과 초대 대통령 이승만이 쫓겨난 이유</span>
+        <span class="era-tag">이승만 정부</span>
+      </div>
+      <div style="font-size:0.93rem; line-height:1.75; color:var(--text);">
+        <p style="margin-bottom:8px;">
+          <strong>① 민족의 비극 6·25 전쟁:</strong> 남북이 갈라진 상태에서 미국이 "한국은 우리 방위선 밖이다(<span class="era-tag">애치슨 선언</span>)"라고 발표하자, 소련·중국의 지원을 약속받은 북한이 <strong>1950년 6월 25일 기습 남침</strong>했습니다. 낙동강까지 밀렸다가 <span class="era-tag">인천 상륙 작전</span>으로 압록강까지 올라갔지만, <span class="era-tag">중국군 개입</span>과 <span class="era-tag">1·4 후퇴</span>를 겪은 뒤 3년 만인 1953년 휴전(<span class="era-tag">정전 협정</span>)했습니다.
+        </p>
+        <p style="margin-bottom:8px;">
+          <strong>② 대통령 계속 하려고 법 고치기(개헌):</strong> 전쟁 중 인기가 떨어진 이승만은 국회의원들이 뽑는 간선제로는 재선이 불가능해지자, 부산에 계엄령을 선포하고 위협해서 <strong>국민이 직접 뽑는 직선제</strong>로 법을 바꿨습니다(<span class="era-tag">발췌 개헌</span>). 그다음엔 "초대 대통령에 한해서는 대통령 횟수 제한을 없앤다"는 법안을 1표 차이로 부결되자 <strong>'반올림(사사오입)하면 통과된 거다!'</strong>라는 황당한 논리로 통과시켰습니다(<span class="era-tag">사사오입 개헌</span>).
+        </p>
+        <p>
+          <strong>③ 부정선거와 4·19 혁명:</strong> 1960년 또다시 대통령·부통령을 차지하려고 투표함을 미리 채워 넣는 등 온갖 불법(<span class="era-tag">3·15 부정 선거</span>)을 저질렀습니다. 시위하던 <strong>김주열 학생</strong>이 눈에 최루탄이 박힌 채 바다에서 발견되자 전국의 학생과 시민이 폭발해 거리로 나섰고(<span class="era-tag">4·19 혁명</span>), 결국 이승만은 대통령 자리에서 물러났습니다(하야).
+        </p>
+      </div>
+    </div>
+
+
+    <div class="card">
+      <div class="card-title">
+        <span>제3막 (1960~1979). 군인 박정희의 등장, 경제 성장, 그리고 유신 독재</span>
+        <span class="era-tag">박정희 정부</span>
+      </div>
+      <div style="font-size:0.93rem; line-height:1.75; color:var(--text);">
+        <p style="margin-bottom:8px;">
+          <strong>① 1년 만의 쿠데타:</strong> 이승만이 물러난 뒤 민주적인 <span class="era-tag">장면 내각</span>이 들어섰지만, 사회 혼란을 틈타 1961년 5월 16일 <strong>박정희</strong> 소장이 이끄는 군인들이 정권을 빼앗았습니다(<span class="era-tag">5·16 군사 정변</span>).
+        </p>
+        <p style="margin-bottom:8px;">
+          <strong>② 돈 벌어서 경제 키우기:</strong> 박정희 정부는 경제 개발 자금을 마련하기 위해 반대 시위(<span class="era-tag">6·3 시위</span>)를 누르고 일본과 국교를 맺었으며(<span class="era-tag">한·일 협정</span>), 미국의 요청으로 <span class="era-tag">베트남 파병</span>을 보내 경제 원조(<span class="era-tag">브라운 각서</span>)를 받아 경제를 빠르게 성장시켰습니다.
+        </p>
+        <p>
+          <strong>③ 죽을 때까지 대통령 하려다 붕괴:</strong> 대통령을 3번까지 할 수 있게 법을 고친(<span class="era-tag">3선 개헌</span>) 박정희는, 1972년 아예 국회를 해산하고 <strong>체육관(통일주체국민회의)에서 혼자 출마해 99.9%로 당선되는 종신 집권 헌법</strong>을 만들었습니다(<span class="era-tag">10월 유신</span>). 반대하는 사람은 영장 없이 잡아가는 <span class="era-tag">긴급조치</span>로 탄압했으나, 결국 1979년 부산·마산 시민들의 대규모 시위(<span class="era-tag">부·마 민주항쟁</span>)가 터졌고, 부하인 중앙정보부장 김재규가 박정희를 사살(<span class="era-tag">10·26 사태</span>)하면서 18년 집권이 끝났습니다.
+        </p>
+      </div>
+    </div>
+
+
+    <div class="card">
+      <div class="card-title">
+        <span>제4막 (1979~1987). 또 군인(전두환)이 뺏었다가 1987년 국민이 이긴 이야기</span>
+        <span class="era-tag">전두환 · 6월 항쟁</span>
+      </div>
+      <div style="font-size:0.93rem; line-height:1.75; color:var(--text);">
+        <p style="margin-bottom:8px;">
+          <strong>① 서울의 봄을 짓밟은 신군부:</strong> 유신이 끝나자 국민들은 "이제 민주주의가 오겠지!"라고 기대했습니다(<span class="era-tag">서울의 봄</span>). 하지만 <strong>전두환</strong> 중심의 신군부가 군대 내 반란(<span class="era-tag">12·12 사태</span>)을 일으켜 권력을 잡았고, 이에 항의하는 광주 시민들을 총칼로 무자비하게 진압했습니다(<span class="era-tag">5·18 광주 민주화 운동</span>). 이후 전두환은 체육관 간선제로 7년짜리 대통령이 되었습니다.
+        </p>
+        <p>
+          <strong>② 1987년 6월 민주항쟁의 승리:</strong> 전두환 정권은 고문과 언론 통제(<span class="era-tag">보도지침</span>)로 국민을 억눌렀습니다. 그러다 1987년 1월 서울대생 <strong>박종철</strong>이 경찰 고문으로 숨진 사건을 정부가 은폐하려다 들통났고, 4월엔 전두환이 "직선제 개헌 안 하고 기존 간선제 헌법 그대로 가겠다(<span class="era-tag">4·13 호헌 조치</span>)"고 선언해 국민 분노가 폭발했습니다. 연세대생 <strong>이한열</strong>마저 최루탄에 맞아 쓰러지자 6월 10일 전국에서 수백만 시민이 거리로 쏟아져 나왔고(<span class="era-tag">6월 민주항쟁</span>), 결국 신군부가 항복하며 <strong>5년 단임 대통령 직선제</strong>(<span class="era-tag">6·29 선언</span>)를 받아들였습니다.
+        </p>
+      </div>
+    </div>
+
+
+    <div class="card">
+      <div class="card-title">
+        <span>제5막 (1987~2018). 우리가 직접 대통령 뽑는 시대의 흐름</span>
+        <span class="era-tag">제6공화국</span>
+      </div>
+      <div style="font-size:0.93rem; line-height:1.75; color:var(--text);">
+        <p style="margin-bottom:6px;">• <strong>노태우 정부(1988~1993):</strong> 88 서울 올림픽 개최, 공산권 국가들과 수교(<span class="era-tag">북방 외교</span>), 북한과 첫 공식 합의서 채택(<span class="era-tag">남북 기본 합의서</span>).</p>
+        <p style="margin-bottom:6px;">• <strong>김영삼 정부(1993~1998):</strong> 군대 내 사조직인 <span class="era-tag">하나회 해체</span>, 전두환·노태우 구속, 차명계좌를 막는 <span class="era-tag">금융실명제</span> 실시, 임기 말 1997년 <span class="era-tag">IMF 외환위기</span> 발생.</p>
+        <p style="margin-bottom:6px;">• <strong>김대중 정부(1998~2003):</strong> 선거를 통한 <strong>최초의 평화적 여야 정권 교체</strong>, IMF 조기 상환, 대북 화해 정책(<span class="era-tag">햇볕정책</span>)으로 분단 후 최초의 남북 정상 회담(<span class="era-tag">6·15 남북 공동 선언</span>) 성사.</p>
+        <p>• <strong>노무현 → 이명박 → 박근혜 → 문재인:</strong> 권위주의 청산 및 2차 남북 정상 회담(<span class="era-tag">10·4 선언</span>, 노무현) → 여야 정권 교체(이명박) → 박근혜 정부 → 2018 남북 정상 회담(<span class="era-tag">판문점 선언</span>, 문재인)으로 이어집니다.</p>
+      </div>
+    </div>
+  </section>
+
+
+  <section id="tab-mnemonic" class="tab-panel">
+    <h2 style="margin-bottom:6px; font-size:1.2rem;">🧠 일상 단어로 머릿속에 그림 그리는 '연상 암기 공식' 8선</h2>
+    <p style="font-size:0.9rem; color:var(--text-sub); margin-bottom:16px;">
+      딱딱한 한자어 앞글자 대신 <strong>현실에서 바로 장면이 떠오르는 문장</strong>으로 바꿨습니다. 소리 내어 3번만 읽으면 순서가 자동으로 외워집니다!
+    </p>
+    <div class="mnemonic-grid">
+      <div class="mnemonic-card">
+        <span class="era-tag">연상 공식 ① · 해방 직후</span>
+        <h3 style="margin-top:6px;">38도선 획정 과정 (1945.8)</h3>
+        <div class="mnemonic-formula">"원소 분식집에서 항복하고 진수성찬"</div>
+        <div class="mnemonic-decode">
+          • <strong>원</strong>소 → 히로시마 <strong>원</strong>폭 투하 (8.6)<br>
+          • <strong>소</strong> → <strong>소</strong>련 참전 (8.8)<br>
+          • <strong>분</strong>식집 → 미국의 38선 <strong>분</strong>할 제안<br>
+          • <strong>항</strong>복 → 일본 <strong>항</strong>복 (8.15)<br>
+          • <strong>진</strong>수성찬 → 미·소 군대 <strong>진</strong>주
+        </div>
+      </div>
+
+
+      <div class="mnemonic-card">
+        <span class="era-tag">연상 공식 ② · 분단 과정 (시험 1순위)</span>
+        <h3 style="margin-top:6px;">광복 ~ 대한민국 정부 수립 (1945~48)</h3>
+        <div class="mnemonic-formula">"건물주 인모가 일(1)하다 정색하고 좌석 뺏기더니, 이(2)유 없이 사(4)남매 오(5)징어 게임에서 제일 정직하게 이겼다!"</div>
+        <div class="mnemonic-decode">
+          • <strong>건</strong>물주 → <strong>건</strong>준 결성 (45.8)<br>
+          • <strong>인모</strong> → <strong>인</strong>공 수립(45.9) → <strong>모</strong>스크바 3국 외상회의(45.12)<br>
+          • <strong>일(1)</strong>하다 → 제<strong>1</strong>차 미·소 공동위원회 (46.3)<br>
+          • <strong>정</strong>색하고 → 이승만 <strong>정</strong>읍 발언 (46.6)<br>
+          • <strong>좌</strong>석 → <strong>좌</strong>우합작 7원칙 발표 (46.10)<br>
+          • <strong>이(2)유</strong> → 제<strong>2</strong>차 미소공위 결렬(47.5) → <strong>유</strong>엔(UN) 이관(47.9)<br>
+          • <strong>사(4)남</strong>매 → 제주 <strong>4</strong>·3 사건 & <strong>남</strong>북 협상 (48.4)<br>
+          • <strong>오(5)</strong>징어 → <strong>5</strong>·10 총선거 (48.5.10)<br>
+          • <strong>제</strong>일 <strong>정</strong>직 → <strong>제</strong>헌헌법(7.17) → 대한민국 <strong>정</strong>부 수립(8.15)
+        </div>
+      </div>
+
+
+      <div class="mnemonic-card">
+        <span class="era-tag">연상 공식 ③ · 한국전쟁</span>
+        <h3 style="margin-top:6px;">6·25 전쟁 전개 과정 (1950~53)</h3>
+        <div class="mnemonic-formula">"남자가 낙지 인형 압수당해서, 중1 때 정색하고 반항하다 정학 맞았다"</div>
+        <div class="mnemonic-decode">
+          • <strong>남</strong>자가 → 북한 기습 <strong>남</strong>침 (50.6.25)<br>
+          • <strong>낙</strong>지 → <strong>낙</strong>동강 방어선까지 후퇴<br>
+          • <strong>인</strong>형 → <strong>인</strong>천 상륙 작전 성공 (9.15)<br>
+          • <strong>압</strong>수당해서 → <strong>압</strong>록강까지 진격 (10월)<br>
+          • <strong>중1</strong> 때 → <strong>중</strong>국군 개입 → <strong>1</strong>·4 후퇴 (51.1)<br>
+          • <strong>정</strong>색하고 → <strong>정</strong>전 회담 시작 (51.7)<br>
+          • <strong>반</strong>항하다 → <strong>반</strong>공 포로 석방 (53.6.18)<br>
+          • <strong>정</strong>학 맞았다 → <strong>정</strong>전 협정 체결 (53.7.27)
+        </div>
+      </div>
+
+
+      <div class="mnemonic-card">
+        <span class="era-tag">연상 공식 ④ · 개헌 총정리</span>
+        <h3 style="margin-top:6px;">헌법 개정 1차 ~ 9차 한 방 정리</h3>
+        <div class="mnemonic-formula">"발사! 내 소중한 오삼불고기 유부초밥 팔(8)고 구(9)하자!"</div>
+        <div class="mnemonic-decode">
+          • <strong>발사!</strong> → 1차 <strong>발</strong>췌개헌(직선제) → 2차 <strong>사</strong>사오입(초대 대통령 중임제한 철폐)<br>
+          • <strong>내 소</strong>중한 → 3차 <strong>내</strong>각책임제(4·19 직후) → 4차 <strong>소</strong>급입법(부정선거 처벌)<br>
+          • <strong>오(5)삼(3)</strong>불고기 → <strong>5</strong>차 개헌(직선제 복귀) → 6차 <strong>3</strong>선 개헌<br>
+          • <strong>유</strong>부초밥 → 7차 <strong>유</strong>신 헌법 (종신 집권)<br>
+          • <strong>팔(8)</strong>고 → <strong>8</strong>차 개헌 (전두환 7년 단임 간선제)<br>
+          • <strong>구(9)</strong>하자! → <strong>9</strong>차 개헌 (현행 5년 단임 직선제)
+        </div>
+      </div>
+
+
+      <div class="mnemonic-card">
+        <span class="era-tag">연상 공식 ⑤ · 1960년 혁명</span>
+        <h3 style="margin-top:6px;">4·19 혁명 전개 과정 (1960)</h3>
+        <div class="mnemonic-formula">"사모(3·15)님 마주(마산·주열)치고 사일구(4·19) 교실에서 하야했다"</div>
+        <div class="mnemonic-decode">
+          • <strong>사모(3·15)</strong>님 → <strong>3·15</strong> 부정 선거<br>
+          • <strong>마주</strong>치고 → 1차 <strong>마</strong>산 시위 → 김<strong>주</strong>열 학생 시신 발견(4.11)<br>
+          • <strong>사일구(4·19)</strong> → <strong>4·19</strong> 시위대 경찰 발포 & 비상계엄<br>
+          • <strong>교</strong>실에서 → 대학 <strong>교</strong>수단 시국 선언 (4.25)<br>
+          • <strong>하야</strong>했다 → 이승만 대통령 <strong>하야</strong> 성명 (4.26)
+        </div>
+      </div>
+
+
+      <div class="mnemonic-card">
+        <span class="era-tag">연상 공식 ⑥ · 1979년 붕괴</span>
+        <h3 style="margin-top:6px;">유신 체제 붕괴 과정 (1979)</h3>
+        <div class="mnemonic-formula">"와(YH)! 영삼이가 부마(부산·마산)에서 10·26 터졌다!"</div>
+        <div class="mnemonic-decode">
+          • <strong>와(YH)</strong> → <strong>YH</strong> 무역 사건 (여성 노동자 신민당사 농성 진압)<br>
+          • <strong>영삼</strong>이가 → <strong>김영삼</strong> 신민당 총재 국회의원직 제명<br>
+          • <strong>부마</strong>에서 → <strong>부·마</strong> 민주 항쟁 (부산·마산 대규모 시위)<br>
+          • <strong>10·26</strong> 터졌다 → <strong>10·26</strong> 사태 (김재규가 박정희 피살)
+        </div>
+      </div>
+
+
+      <div class="mnemonic-card">
+        <span class="era-tag">연상 공식 ⑦ · 1980년 광주</span>
+        <h3 style="margin-top:6px;">5·18 광주 민주화 운동 전개 (1980)</h3>
+        <div class="mnemonic-formula">"오일칠(5·17)에 전화 발신 철회하고 수도 잠갔다"</div>
+        <div class="mnemonic-decode">
+          • <strong>오일칠(5·17)</strong> → <strong>5·17</strong> 비상계엄 전국 확대<br>
+          • <strong>전</strong>화 → <strong>전</strong>남대 정문 시위 (5.18)<br>
+          • <strong>발</strong>신 → 계엄군 무차별 <strong>발</strong>포 (5.20)<br>
+          • <strong>시</strong>민·<strong>철</strong>회 → <strong>시</strong>민군 조직 & 계엄군 외곽 <strong>철</strong>수 (5.21)<br>
+          • <strong>수</strong>도 → 시민 <strong>수</strong>습 대책 위원회 구성<br>
+          • <strong>도</strong>청 → 계엄군의 전남 <strong>도</strong>청 무력 진압 (5.27)
+        </div>
+      </div>
+
+
+      <div class="mnemonic-card">
+        <span class="era-tag">연상 공식 ⑧ · 1987년 승리</span>
+        <h3 style="margin-top:6px;">1987년 6월 민주항쟁 전개 (1987)</h3>
+        <div class="mnemonic-formula">"종철이가 사일삼(4·13) 국본에서 한열이랑 육일공(6·10) 버스 타고 육이구(6·29) 항복 받아냈다!"</div>
+        <div class="mnemonic-decode">
+          • <strong>종철</strong>이가 → 박<strong>종철</strong> 고문치사 사건 & 은폐 폭로 (87.1)<br>
+          • <strong>사일삼(4·13)</strong> → 전두환의 <strong>4·13</strong> 호헌 조치 (직선제 거부)<br>
+          • <strong>국본</strong>에서 → 민주헌법쟁취 <strong>국</strong>민운동<strong>본</strong>부 결성 (5.27)<br>
+          • <strong>한열</strong>이랑 → 이<strong>한열</strong> 학생 최루탄 피격 (6.9)<br>
+          • <strong>육일공(6·10)</strong> → <strong>6·10</strong> 국민 대회 (전국 시위 폭발)<br>
+          • <strong>육이구(6·29)</strong> → <strong>6·29</strong> 민주화 선언 (대통령 직선제 수용)
+        </div>
+      </div>
+    </div>
+
+
+    <div class="card">
+      <div class="card-title">📊 서술형·객관식 단골 비교표 3종</div>
+      
+      <h4 style="margin-top:14px; color:var(--primary);">1) 해방 직후 미군정 vs 소군정 통치 방식</h4>
+      <table>
+        <tr><th>구분</th><th>미군정 (38선 이남)</th><th>소군정 (38선 이북)</th></tr>
+        <tr><td><strong>통치 방식</strong></td><td>군정청을 통한 <strong>직접 통치</strong></td><td>각 지역 <strong>인민위원회</strong>에 행정권 이양 (<strong>간접 통치</strong>)</td></tr>
+        <tr><td><strong>세력 관계</strong></td><td>임시정부·인공 불인정, <strong>조선총독부 행정체제·경찰 그대로 활용</strong></td><td>민족주의 세력 탄압, 김일성 등 좌익 세력 후원</td></tr>
+      </table>
+
+
+      <h4 style="margin-top:20px; color:var(--primary);">2) 남한 농지개혁(1949) vs 북한 토지개혁(1946)</h4>
+      <table>
+        <tr><th>구분</th><th>남한 농지개혁법 (1949.6)</th><th>북한 토지개혁 법령 (1946.3)</th></tr>
+        <tr><td><strong>핵심 원칙</strong></td><td><strong>유상 매수 · 유상 분배</strong> (경자유전 원칙)</td><td><strong>무상 몰수 · 무상 분배</strong></td></tr>
+        <tr><td><strong>소유 상한</strong></td><td>가구당 <strong>3정보</strong> 초과 농지 매입 (지가증권 발급, 평년작 1.5배 5년 분할상환)</td><td><strong>5정보</strong> 초과 토지 몰수 (분배받은 토지의 매매·소작·저당 금지)</td></tr>
+        <tr><td><strong>결과/한계</strong></td><td>지주·소작제 소멸. 단, 임야 등 비농지 제외 및 상환 부담으로 일부 재전락</td><td>사회주의 경제 체제 토대 마련</td></tr>
+      </table>
+
+
+      <h4 style="margin-top:20px; color:var(--primary);">3) 6·25 정전 회담(1951.7~) 핵심 쟁점 2가지</h4>
+      <table>
+        <tr><th>쟁점</th><th>유엔군 (미국) 입장</th><th>북한 · 중국군 입장</th></tr>
+        <tr><td><strong>군사 분계선(휴전선)</strong></td><td>현재 전투가 벌어지고 있는 <strong>접촉선(전선)</strong> 기준</td><td>전쟁 이전 경계선인 <strong>북위 38도선</strong> 기준</td></tr>
+        <tr><td><strong>포로 교환 방식</strong></td><td>포로 개인의 의사에 맡기는 <strong>자유 송환</strong></td><td>전쟁 전 소속 국가로 돌려보내는 <strong>자동(강제) 송환</strong></td></tr>
+      </table>
+    </div>
+  </section>
+
+
+  <section id="tab-notes" class="tab-panel">
+    <div class="filter-bar" id="eraFilterBar">
+      <button class="filter-pill active" onclick="filterNotes('ALL', this)">전체 보기</button>
+      <button class="filter-pill" onclick="filterNotes('해방공간', this)">해방과 분단(44~48)</button>
+      <button class="filter-pill" onclick="filterNotes('정부수립', this)">정부수립·개혁(48~50)</button>
+      <button class="filter-pill" onclick="filterNotes('625전쟁', this)">6·25 전쟁(50~53)</button>
+      <button class="filter-pill" onclick="filterNotes('1_2공화국', this)">이승만·4.19·2공(52~61)</button>
+      <button class="filter-pill" onclick="filterNotes('3_4공화국', this)">박정희·유신(61~79)</button>
+      <button class="filter-pill" onclick="filterNotes('5_6공화국', this)">전두환·민주화이후(79~18)</button>
+    </div>
+    <p style="font-size:0.85rem; color:var(--text-sub); margin-bottom:14px;">
+      💡 상단의 <strong>[🙈 암기 모드]</strong>를 켜면 노란색 핵심 키워드가 가려집니다. 가려진 칸을 클릭하면 정답을 확인할 수 있어요!
+    </p>
+    <div id="notesContainer">
+        <div class="card">
+          <div class="card-title">
+            <div>
+              <span class="era-tag" style="margin-right:6px;">해방과 분단</span>
+              <span>1. 광복 직전·직후 건국 준비와 38도선 획정 (1944~1945.9)</span>
+            </div>
+            <button type="button" class="btn" onclick="toggleMemorized('note-1')">⬜ 암기 체크</button>
+          </div>
+          <div class="note-context-box">
+            <strong>💡 한 줄 맥락:</strong> 일본 패망 직전 여운형이 치안과 행정권을 준비했으나, 미·소의 분할 점령과 냉전으로 좌우익이 갈라지기 시작했습니다.
+          </div>
+          <ul class="note-list"><li>1944.8 <span class="cloze" onclick="this.classList.toggle('revealed')">여운형</span>이 광복을 준비하기 위해 비밀 단체인 <span class="cloze" onclick="this.classList.toggle('revealed')">조선 건국 동맹</span> 조직</li><li>1945.8.15 여운형·안재홍 중심으로 좌우익을 망라한 <span class="cloze" onclick="this.classList.toggle('revealed')">조선 건국 준비 위원회(건준)</span> 결성 → 전국 지부 설치 및 <span class="cloze" onclick="this.classList.toggle('revealed')">치안대</span> 조직</li><li>38도선 획정: 히로시마 원폭 투하 → 소련 참전 → 미국 38도선 분할 제안 → 일본 항복 → 미·소 군대 진주</li><li>1945.9.6 좌익 세력이 미군 진주 전 <span class="cloze" onclick="this.classList.toggle('revealed')">조선 인민 공화국(인공)</span> 선포(이승만 주석 거부, 지부는 인민위원회로 전환) ↔ 송진우·김성수 등 우익은 <span class="cloze" onclick="this.classList.toggle('revealed')">한국 민주당(한민당)</span> 결성</li><li>광복 직후 주요 세력: <span class="cloze" onclick="this.classList.toggle('revealed')">이승만</span>(독립촉성중앙협의회·반공), <span class="cloze" onclick="this.classList.toggle('revealed')">김구</span>(한국독립당·임정계승), <span class="cloze" onclick="this.classList.toggle('revealed')">박헌영</span>(조선공산당), <span class="cloze" onclick="this.classList.toggle('revealed')">여운형</span>(조선인민당·중도좌파)</li></ul>
+          <div class="exam-tip">📌 시험 포인트: 미군정은 대한민국 임시정부와 조선 인민 공화국을 모두 인정하지 않고 직접 통치했습니다.</div>
+        </div>
+    
+        <div class="card">
+          <div class="card-title">
+            <div>
+              <span class="era-tag" style="margin-right:6px;">해방과 분단</span>
+              <span>2. 모스크바 3국 외상 회의와 찬탁·반탁 대립 (1945.12)</span>
+            </div>
+            <button type="button" class="btn" onclick="toggleMemorized('note-2')">⬜ 암기 체크</button>
+          </div>
+          <div class="note-context-box">
+            <strong>💡 한 줄 맥락:</strong> 한반도 독립 방법을 논의한 국제 회의에서 '신탁 통치' 문구가 알려지며 국내 정치 세력이 반탁(우익)과 찬탁(좌익)으로 완전히 갈라졌습니다.
+          </div>
+          <ul class="note-list"><li>결정 사항 3가지: ① 한반도에 <span class="cloze" onclick="this.classList.toggle('revealed')">임시 민주 정부</span> 수립 ② 이를 지원할 <span class="cloze" onclick="this.classList.toggle('revealed')">미·소 공동 위원회</span> 설치 ③ 최대 5년간 미·영·중·소 4개국 <span class="cloze" onclick="this.classList.toggle('revealed')">신탁 통치</span> 실시 협의</li><li>우익(이승만, 김구, 한민당): 신탁 통치를 식민지배의 연장으로 보고 격렬한 <span class="cloze" onclick="this.classList.toggle('revealed')">반탁 운동</span> 전개 (친일파도 애국 세력으로 변신 가담)</li><li>좌익(조선공산당 등): 처음엔 반대했으나 회의 본질이 임시 민주 정부 수립에 있다고 보고 <span class="cloze" onclick="this.classList.toggle('revealed')">총체적 지지(찬탁)</span>로 전환</li></ul>
+          <div class="exam-tip">📌 암기 팁: 모스크바 회의 3대 결정 = [임·미·신] (임시민주정부, 미소공동위원회, 신탁통치)</div>
+        </div>
+    
+        <div class="card">
+          <div class="card-title">
+            <div>
+              <span class="era-tag" style="margin-right:6px;">해방과 분단</span>
+              <span>3. 미·소 공위 결렬과 통일 정부 수립 노력 (1946~1948.4)</span>
+            </div>
+            <button type="button" class="btn" onclick="toggleMemorized('note-3')">⬜ 암기 체크</button>
+          </div>
+          <div class="note-context-box">
+            <strong>💡 한 줄 맥락:</strong> 미국과 소련의 대립으로 통일 정부 수립이 어려워지자 중도파(좌우합작)와 민족주의 세력(남북협상)이 분단을 막기 위해 필사적으로 노력했습니다.
+          </div>
+          <ul class="note-list"><li>제1차 <span class="cloze" onclick="this.classList.toggle('revealed')">미·소 공동 위원회</span>(1946.3~5): 협의 대상을 두고 대립(미국: 모든 정치 세력 vs 소련: 모스크바 결정 지지 세력만) → 무기 휴회</li><li>이승만의 <span class="cloze" onclick="this.classList.toggle('revealed')">정읍 발언</span>(1946.6): 남한만이라도 단독 임시 정부를 수립할 것을 촉구</li><li><span class="cloze" onclick="this.classList.toggle('revealed')">좌우합작 위원회</span>(1946.7): 중도파 <span class="cloze" onclick="this.classList.toggle('revealed')">여운형·김규식</span>이 미군정 지원으로 조직 → <span class="cloze" onclick="this.classList.toggle('revealed')">좌우합작 7원칙</span> 발표(통일 임시정부, 유상매입·무상분배 토지개혁, 친일파 처벌) → 좌우익 비협조와 1947.7 여운형 암살로 중단</li><li>제2차 미소공위 결렬(1947.5) 후 미국이 한국 문제를 <span class="cloze" onclick="this.classList.toggle('revealed')">유엔(UN)</span>에 이관 → 소련 입북 거부 → 유엔 소총회에서 <span class="cloze" onclick="this.classList.toggle('revealed')">선거 가능한 지역(남한)만 총선거</span> 결의(1948.2.26)</li><li><span class="cloze" onclick="this.classList.toggle('revealed')">남북 협상</span>(1948.4): <span class="cloze" onclick="this.classList.toggle('revealed')">김구·김규식</span>이 평양의 남북 연석회의에 참여해 외국군 즉시 철수·단독선거 반대 공동성명을 발표했으나 실패</li></ul>
+          <div class="exam-tip">📌 연계 흐름: 1차 미소공위 결렬 → 정읍발언 → 좌우합작 7원칙 → 2차 미소공위 결렬 → UN 이관 → 남북협상</div>
+        </div>
+    
+        <div class="card">
+          <div class="card-title">
+            <div>
+              <span class="era-tag" style="margin-right:6px;">해방과 분단</span>
+              <span>4. 단독 정부 수립 반대: 제주 4·3 사건과 여순 사건 (1948)</span>
+            </div>
+            <button type="button" class="btn" onclick="toggleMemorized('note-4')">⬜ 암기 체크</button>
+          </div>
+          <div class="note-context-box">
+            <strong>💡 한 줄 맥락:</strong> 남한만의 단독 선거(5·10 총선) 추진에 반대하는 과정에서 발생한 비극적 무장 충돌과 민간인 희생 사건입니다.
+          </div>
+          <ul class="note-list"><li><span class="cloze" onclick="this.classList.toggle('revealed')">제주 4·3 사건</span>(1948.4.3): 1947년 3·1절 기념시위 경찰 발포로 제주 민심 악화 → 1948.4.3 남로당 제주도당 등이 단독 선거 반대 무장봉기 → 미군정과 이승만 정부의 계엄령·강경 진압으로 수많은 양민 희생(1954.9 종결)</li><li><span class="cloze" onclick="this.classList.toggle('revealed')">여수·순천 10·19 사건</span>(1948.10.19): 정부 수립 후 여수 주둔 군부대에 <span class="cloze" onclick="this.classList.toggle('revealed')">제주 4·3 사건 진압 출동 명령</span>이 내려지자, 부대 내 좌익 세력이 이에 반대하며 무장 봉기 → 진압 과정에서 다수 민간인 희생, 일부는 지리산 빨치산으로 활동</li></ul>
+          <div class="exam-tip">📌 구분 포인트: 제주 4·3은 5·10 총선 '전'(4월), 여순 사건은 정부 수립 '후'(10월, 제주 출동 거부)에 발생했습니다.</div>
+        </div>
+    
+        <div class="card">
+          <div class="card-title">
+            <div>
+              <span class="era-tag" style="margin-right:6px;">정부수립·개혁</span>
+              <span>5. 대한민국 정부 수립과 친일파 청산의 좌절 (1948~1949)</span>
+            </div>
+            <button type="button" class="btn" onclick="toggleMemorized('note-5')">⬜ 암기 체크</button>
+          </div>
+          <div class="note-context-box">
+            <strong>💡 한 줄 맥락:</strong> 최초의 민주적 보통선거로 대한민국 정부가 출범했으나, 친일 잔재 청산은 이승만 정부의 비협조와 방해로 좌절되었습니다.
+          </div>
+          <ul class="note-list"><li><span class="cloze" onclick="this.classList.toggle('revealed')">5·10 총선거</span>(1948.5.10): 우리나라 최초의 보통·민주 선거 (제주도 2개 선거구 제외 198명 선출, 김구·김규식 및 좌익 불참)</li><li><span class="cloze" onclick="this.classList.toggle('revealed')">제헌 국회</span> 구성(5.31) → 국호 '대한민국' 결정 → <span class="cloze" onclick="this.classList.toggle('revealed')">제헌 헌법</span> 공포(7.17, <span class="cloze" onclick="this.classList.toggle('revealed')">대한민국 임시 정부의 법통 계승</span> 명시, 대통령 중심제, 단원제)</li><li>국회 간선제로 초대 대통령 <span class="cloze" onclick="this.classList.toggle('revealed')">이승만</span>, 부통령 이시영 선출(7.20) → <span class="cloze" onclick="this.classList.toggle('revealed')">대한민국 정부 수립 선포</span>(1948.8.15) → 유엔 총회 유일 합법 정부 승인(1948.12)</li><li>북한 정권 수립: 1946.2 북조선 임시 인민 위원회(김일성) → 1946.3 토지개혁 → 1948.9.9 <span class="cloze" onclick="this.classList.toggle('revealed')">조선 민주주의 인민 공화국</span> 수립</li><li>친일파 청산 좌절: 제헌국회가 <span class="cloze" onclick="this.classList.toggle('revealed')">반민족 행위 처벌법</span> 제정(1948.9) 및 국회 직속 <span class="cloze" onclick="this.classList.toggle('revealed')">반민특위</span> 구성(박흥식, 노덕술, 이광수 등 체포) → 이승만 정부가 <span class="cloze" onclick="this.classList.toggle('revealed')">반공</span>을 내세워 견제(<span class="cloze" onclick="this.classList.toggle('revealed')">국회 프락치 사건</span>, 경찰의 반민특위 습격, 공소시효 단축)하며 와해됨</li></ul>
+          <div class="exam-tip">📌 서술형 단골: 이승만 정부가 반민특위를 해체시키려 한 이유 = '반공(공산당과 내통했다는 구실)'을 내세웠기 때문입니다.</div>
+        </div>
+    
+        <div class="card">
+          <div class="card-title">
+            <div>
+              <span class="era-tag" style="margin-right:6px;">정부수립·개혁</span>
+              <span>6. 농지개혁법과 귀속재산 처리법 (1949)</span>
+            </div>
+            <button type="button" class="btn" onclick="toggleMemorized('note-6')">⬜ 암기 체크</button>
+          </div>
+          <div class="note-context-box">
+            <strong>💡 한 줄 맥락:</strong> 일제강점기부터 이어진 지주·소작제를 없애고 자작농을 육성하기 위해 실시된 경제 개혁입니다.
+          </div>
+          <ul class="note-list"><li><span class="cloze" onclick="this.classList.toggle('revealed')">농지개혁법</span>(1949.6): <span class="cloze" onclick="this.classList.toggle('revealed')">경자유전</span>의 원칙에 따라 <span class="cloze" onclick="this.classList.toggle('revealed')">유상 매수 · 유상 분배</span> 방식으로 실시</li><li>핵심 내용: 가구당 소유 상한 <span class="cloze" onclick="this.classList.toggle('revealed')">3정보</span> 제한, 초과 농지는 <span class="cloze" onclick="this.classList.toggle('revealed')">지가 증권</span>을 발급해 매입 후 농민에게 매각(평년작 1.5배를 5년간 분할 상환)</li><li>결과 및 한계: 지주·소작제가 거의 소멸되어 농민 대다수가 자기 땅을 갖게 됨. 단, 농지가 아닌 임야 등은 제외되었고 상환 부담으로 다시 소작농이 된 경우도 있음</li><li><span class="cloze" onclick="this.classList.toggle('revealed')">귀속재산 처리법</span>(1949.12): 일본인이 남기고 간 재산(적산)을 민간에 불하 → 특정 기업에 대한 특혜 부작용 노출</li></ul>
+          <div class="exam-tip">📌 비교 필수: 남한은 '유상매수·유상분배(3정보)', 북한은 '무상몰수·무상분배(5정보)'입니다.</div>
+        </div>
+    
+        <div class="card">
+          <div class="card-title">
+            <div>
+              <span class="era-tag" style="margin-right:6px;">6·25 전쟁</span>
+              <span>7. 6·25 전쟁의 배경과 4단계 전개 과정 (1950~1953)</span>
+            </div>
+            <button type="button" class="btn" onclick="toggleMemorized('note-7')">⬜ 암기 체크</button>
+          </div>
+          <div class="note-context-box">
+            <strong>💡 한 줄 맥락:</strong> 냉전 체제가 실제 열전(전쟁)으로 폭발한 비극으로, 전선이 낙동강까지 밀렸다가 압록강까지 올라간 뒤 다시 38선 부근에서 고착되었습니다.
+          </div>
+          <ul class="note-list"><li>배경: 38선 부근 잦은 무력 충돌, 북한의 전쟁 준비(소련 무기 지원, 조선의용군 편입), 미국의 <span class="cloze" onclick="this.classList.toggle('revealed')">애치슨 선언</span>(1950.1, 태평양 방위선에서 한국·타이완 제외)</li><li>1기(북한 공세): 1950.6.25 기습 남침 → 3일 만에 서울 함락 → <span class="cloze" onclick="this.classList.toggle('revealed')">낙동강 방어선</span>까지 후퇴 → 유엔 안보리 결의로 <span class="cloze" onclick="this.classList.toggle('revealed')">유엔군 참전</span></li><li>2기(국군·유엔군 반격): 1950.9.15 <span class="cloze" onclick="this.classList.toggle('revealed')">인천 상륙 작전</span> 성공 → 9.28 서울 수복 → 평양 점령 후 <span class="cloze" onclick="this.classList.toggle('revealed')">압록강</span>까지 진격</li><li>3기(중국군 개입): 1950.11 중국군 대규모 개입 → 1951.1 <span class="cloze" onclick="this.classList.toggle('revealed')">1·4 후퇴</span>(서울 재함락)</li><li>4기(전선 교착 및 정전): 서울 재탈환 후 38선 부근 교착 → 1951.7 소련 제의로 정전회담 시작(<span class="cloze" onclick="this.classList.toggle('revealed')">휴전선 설정 문제</span>, <span class="cloze" onclick="this.classList.toggle('revealed')">포로 교환 방식 문제</span>로 난항) → 이승만의 북진통일 주장 및 <span class="cloze" onclick="this.classList.toggle('revealed')">반공포로 석방</span>(1953.6.18) → <span class="cloze" onclick="this.classList.toggle('revealed')">정전 협정 체결</span>(1953.7.27, 비무장지대 설치) → <span class="cloze" onclick="this.classList.toggle('revealed')">한·미 상호 방위 조약</span> 체결(1953.10)</li></ul>
+          <div class="exam-tip">📌 정전 회담 가장 합의하기 어려웠던 의제 2가지 = ① 휴전선(군사분계선) 설정 문제 ② 포로 교환 방식 문제</div>
+        </div>
+    
+        <div class="card">
+          <div class="card-title">
+            <div>
+              <span class="era-tag" style="margin-right:6px;">6·25 전쟁</span>
+              <span>8. 6·25 전쟁의 영향과 1950년대 남북 경제·사회</span>
+            </div>
+            <button type="button" class="btn" onclick="toggleMemorized('note-8')">⬜ 암기 체크</button>
+          </div>
+          <div class="note-context-box">
+            <strong>💡 한 줄 맥락:</strong> 전쟁 후 남한은 미국 원조 경제(삼백산업)에 의존했고, 북한은 김일성 1인 독재와 사회주의 집단화·천리마 운동을 추진했습니다.
+          </div>
+          <ul class="note-list"><li>전쟁 피해와 국제 변화: 민간인 학살(국군: <span class="cloze" onclick="this.classList.toggle('revealed')">거창 양민 학살</span>, <span class="cloze" onclick="this.classList.toggle('revealed')">국민 보도 연맹 사건</span> / 북한군: 인민재판 학살), 주한미군 주둔(<span class="cloze" onclick="this.classList.toggle('revealed')">한·미 상호 방위 조약</span>), <span class="cloze" onclick="this.classList.toggle('revealed')">일본</span>은 <span class="cloze" onclick="this.classList.toggle('revealed')">6·25 전쟁 특수</span>로 경제 부흥 및 아시아 반공 거점화</li><li>1950년대 남한 원조 경제: 미국의 소비재·잉여 농산물 원조 → <span class="cloze" onclick="this.classList.toggle('revealed')">삼백 산업</span>(<span class="cloze" onclick="this.classList.toggle('revealed')">제분·제당·면방직</span>) 중심 공업화 발달</li><li>원조 경제의 한계: 특정 기업 편중 배정으로 <span class="cloze" onclick="this.classList.toggle('revealed')">정경유착</span> 및 독점 부작용 발생, 미국 잉여 농산물 유입으로 국내 곡가 폭락 → <span class="cloze" onclick="this.classList.toggle('revealed')">농촌 경제 피폐</span> 및 이농 증가</li><li>전후 북한의 독재와 경제: 전쟁 책임을 물어 <span class="cloze" onclick="this.classList.toggle('revealed')">박헌영 계열</span> 숙청(1953~55) 및 <span class="cloze" onclick="this.classList.toggle('revealed')">김두봉 계열</span> 숙청 → <span class="cloze" onclick="this.classList.toggle('revealed')">김일성 1인 독재 체제</span> 확립, 농업·상공업 <span class="cloze" onclick="this.classList.toggle('revealed')">협동조합</span> 집단화, 노동 생산성 향상을 위한 <span class="cloze" onclick="this.classList.toggle('revealed')">천리마 운동</span>(1956) 전개</li></ul>
+          <div class="exam-tip">📌 삼백산업(三白産業) = 밀가루(제분), 설탕(제당), 면화(면방직)처럼 하얀 원료를 가공하는 1950년대 소비재 공업!</div>
+        </div>
+    
+        <div class="card">
+          <div class="card-title">
+            <div>
+              <span class="era-tag" style="margin-right:6px;">1·2공화국</span>
+              <span>9-1. 이승만 장기 집권 개헌과 반공 독재 탄압 (1952~1959)</span>
+            </div>
+            <button type="button" class="btn" onclick="toggleMemorized('note-9-1')">⬜ 암기 체크</button>
+          </div>
+          <div class="note-context-box">
+            <strong>💡 한 줄 맥락:</strong> 국회 간선제로는 재선이 어렵게 된 이승만 정권이 폭력적인 개헌(발췌·사사오입)과 반공 탄압(진보당 사건)으로 독재를 연장했습니다.
+          </div>
+          <ul class="note-list"><li><span class="cloze" onclick="this.classList.toggle('revealed')">발췌 개헌</span>(1952.7, 1차 개헌): 2대 총선(1950)에서 반이승만 후보 대거 당선 + <span class="cloze" onclick="this.classList.toggle('revealed')">국민방위군 사건</span> 폭로로 간선제 재선 불가능 → 자유당 창당(1951.12) → 임시 수도 <span class="cloze" onclick="this.classList.toggle('revealed')">부산</span> 계엄령 선포 및 야당 의원 연행·구속(<span class="cloze" onclick="this.classList.toggle('revealed')">부산 정치 파동</span>) → 경찰·군인 국회 포위 속 기립 표결로 <span class="cloze" onclick="this.classList.toggle('revealed')">대통령 직선제</span> 통과</li><li><span class="cloze" onclick="this.classList.toggle('revealed')">사사오입 개헌</span>(1954.11, 2차 개헌): <span class="cloze" onclick="this.classList.toggle('revealed')">초대 대통령에 한해 중임 제한 철폐</span> 개헌안 표결 → 찬성 135표(정족수 136표에 1표 부족)로 부결 선포 후, 이틀 뒤 반올림(<span class="cloze" onclick="this.classList.toggle('revealed')">사사오입</span>) 논리로 가결 번복</li><li>1956년 제3대 대선 이후 위기: 대통령 이승만 당선, 무소속 <span class="cloze" onclick="this.classList.toggle('revealed')">조봉암</span>이 30%(216만 표) 득표 돌풍, 부통령에 야당 <span class="cloze" onclick="this.classList.toggle('revealed')">장면</span>(민주당) 당선</li><li>반공 독재 탄압: 평화 통일을 주장한 진보당 당수 <span class="cloze" onclick="this.classList.toggle('revealed')">조봉암</span>을 간첩죄로 구속·정당 등록 취소 후 사형 집행(<span class="cloze" onclick="this.classList.toggle('revealed')">진보당 사건</span>, 1958~59), <span class="cloze" onclick="this.classList.toggle('revealed')">신국가보안법</span> 개정(1958), 정부 비판 언론인 <span class="cloze" onclick="this.classList.toggle('revealed')">경향신문 폐간</span>(1959)</li></ul>
+          <div class="exam-tip">📌 구분 암기: 발췌 개헌(1952) = '대통령 직선제' / 사사오입 개헌(1954) = '초대 대통령 중임 제한 철폐'</div>
+        </div>
+    
+        <div class="card">
+          <div class="card-title">
+            <div>
+              <span class="era-tag" style="margin-right:6px;">1·2공화국</span>
+              <span>9-2. 4·19 혁명과 장면 내각(제2공화국) (1960~1961)</span>
+            </div>
+            <button type="button" class="btn" onclick="toggleMemorized('note-9-2')">⬜ 암기 체크</button>
+          </div>
+          <div class="note-context-box">
+            <strong>💡 한 줄 맥락:</strong> 3·15 부정 선거에 분노한 학생과 시민들이 이승만 독재를 무너뜨리고 민주적인 제2공화국(장면 내각)을 출범시켰습니다.
+          </div>
+          <ul class="note-list"><li><span class="cloze" onclick="this.classList.toggle('revealed')">3·15 부정 선거</span>(1960): 고령의 이승만 유고 시 야당 부통령(장면)의 승계를 막고 자유당 <span class="cloze" onclick="this.classList.toggle('revealed')">이기붕</span>을 부통령에 당선시키려 부정 자행(<span class="cloze" onclick="this.classList.toggle('revealed')">4할 사전투표</span>, <span class="cloze" onclick="this.classList.toggle('revealed')">3인조·5인조 공개투표</span>, 완장부대, 야당 참관인 축출)</li><li><span class="cloze" onclick="this.classList.toggle('revealed')">4·19 혁명</span> 전개 순서: 1차 마산 시위(3.15) → 최루탄에 숨진 <span class="cloze" onclick="this.classList.toggle('revealed')">김주열 학생 시신 발견</span>(4.11) → 2차 마산 시위·고려대 시위(4.18) → 4·19 시위대 <span class="cloze" onclick="this.classList.toggle('revealed')">경무대</span> 행진에 경찰 무차별 발포·비상계엄 선포 → <span class="cloze" onclick="this.classList.toggle('revealed')">대학 교수단 시국 선언</span>(4.25) → <span class="cloze" onclick="this.classList.toggle('revealed')">이승만 대통령 하야</span>(4.26)</li><li>의의: 학생과 각계각층 시민이 참여하여 독재 정권을 무너뜨린 반독재 민주 혁명</li><li><span class="cloze" onclick="this.classList.toggle('revealed')">장면 내각</span>(제2공화국): 허정 과도정부 주도 <span class="cloze" onclick="this.classList.toggle('revealed')">3차 개헌</span>(<span class="cloze" onclick="this.classList.toggle('revealed')">내각 책임제</span>, 양원제 국회) → 7·29 총선 민주당 압승 → 윤보선 대통령, <span class="cloze" onclick="this.classList.toggle('revealed')">장면 국무총리</span> 선출</li><li>장면 내각 정책과 한계: <span class="cloze" onclick="this.classList.toggle('revealed')">지방 자치제 실시</span>, 공무원 공개 채용 도입, <span class="cloze" onclick="this.classList.toggle('revealed')">경제 개발 5개년 계획 수립</span>, <span class="cloze" onclick="this.classList.toggle('revealed')">4차 개헌</span>(<span class="cloze" onclick="this.classList.toggle('revealed')">소급 입법 개헌</span>으로 부정선거 처벌) / 시민사회의 <span class="cloze" onclick="this.classList.toggle('revealed')">남북 학생 회담</span> 등 평화 통일 운동 활성화 ↔ 민주당 파벌 싸움과 혼란 속 <span class="cloze" onclick="this.classList.toggle('revealed')">5·16 군사 정변</span>(1961)으로 붕괴</li></ul>
+          <div class="exam-tip">📌 4·19 순서: 3·15 부정선거 → 1차 마산시위 → 김주열 시신 발견 → 4·19 발포·계엄 → 교수단 시국선언 → 이승만 하야</div>
+        </div>
+    
+        <div class="card">
+          <div class="card-title">
+            <div>
+              <span class="era-tag" style="margin-right:6px;">박정희·유신</span>
+              <span>10-1. 5·16 군사 정변과 박정희 정부(제3공화국) (1961~1971)</span>
+            </div>
+            <button type="button" class="btn" onclick="toggleMemorized('note-10-1')">⬜ 암기 체크</button>
+          </div>
+          <div class="note-context-box">
+            <strong>💡 한 줄 맥락:</strong> 군사 정변으로 집권한 박정희 정부는 한일 협정과 베트남 파병으로 경제 개발 자금을 마련했으나, 3선 개헌으로 장기 집권의 길로 들어섰습니다.
+          </div>
+          <ul class="note-list"><li><span class="cloze" onclick="this.classList.toggle('revealed')">5·16 군사 정변</span>(1961.5.16): 육군 소장 <span class="cloze" onclick="this.classList.toggle('revealed')">박정희</span> 중심 군정(<span class="cloze" onclick="this.classList.toggle('revealed')">국가 재건 최고 회의</span>, <span class="cloze" onclick="this.classList.toggle('revealed')">중앙정보부</span> 설치) → <span class="cloze" onclick="this.classList.toggle('revealed')">제5차 개헌</span>(1962.12, 4년 중임 대통령 중심제, 직선제, 국회 단원제) 후 1963년 제5대 대통령 당선</li><li><span class="cloze" onclick="this.classList.toggle('revealed')">한·일 협정 체결</span>(1965.6.22): 경제 개발 자금 확보와 미국의 한·미·일 안보 협력 요구 → <span class="cloze" onclick="this.classList.toggle('revealed')">김종필-오히라 비밀 회담</span> → 식민 지배 사죄·배상 없는 굴욕 외교 반대 <span class="cloze" onclick="this.classList.toggle('revealed')">6·3 시위</span>(1964)를 비상계엄으로 진압 후 체결(무상 3억·차관 3억 달러 도입)</li><li><span class="cloze" onclick="this.classList.toggle('revealed')">베트남 전쟁 파병</span>(1964~1973): 미국 요청으로 파병 → <span class="cloze" onclick="this.classList.toggle('revealed')">브라운 각서</span>(1966, 국군 현대화 장비 지원, 경제 개발 기술·차관 제공 약속) → <span class="cloze" onclick="this.classList.toggle('revealed')">베트남 특수</span>로 경제 성장 발판 마련 / 한계: 장병 희생, <span class="cloze" onclick="this.classList.toggle('revealed')">고엽제</span> 피해, <span class="cloze" onclick="this.classList.toggle('revealed')">라이따이한</span> 문제, 민간인 희생</li><li><span class="cloze" onclick="this.classList.toggle('revealed')">3선 개헌</span>(1969.9.14, 제6차 개헌): 대통령의 <span class="cloze" onclick="this.classList.toggle('revealed')">3회 연임</span> 허용 개헌안을 야당 저지를 피해 국회 제3별관에서 변칙 통과 → 1971년 제7대 대선에서 야당 후보 <span class="cloze" onclick="this.classList.toggle('revealed')">김대중</span>을 힘겹게 누르고 당선</li></ul>
+          <div class="exam-tip">📌 연결 키워드: 한일협정 = 김종필·오히라 메모 + 6·3 시위 / 베트남 파병 = 브라운 각서(1966) + 베트남 특수</div>
+        </div>
+    
+        <div class="card">
+          <div class="card-title">
+            <div>
+              <span class="era-tag" style="margin-right:6px;">박정희·유신</span>
+              <span>10-2. 유신 체제의 성립과 민주화 운동, 그리고 붕괴 (1972~1979)</span>
+            </div>
+            <button type="button" class="btn" onclick="toggleMemorized('note-10-2')">⬜ 암기 체크</button>
+          </div>
+          <div class="note-context-box">
+            <strong>💡 한 줄 맥락:</strong> 종신 집권을 위한 10월 유신으로 삼권 분립과 기본권이 정지되었으나, 시민·종교·노동계의 치열한 저항 끝에 부마항쟁과 10·26으로 붕괴했습니다.
+          </div>
+          <ul class="note-list"><li>성립 배경과 10월 유신: <span class="cloze" onclick="this.classList.toggle('revealed')">닉슨 독트린</span>(1969)으로 냉전 완화 + 경기 침체 → <span class="cloze" onclick="this.classList.toggle('revealed')">7·4 남북 공동 성명</span>(1972.7.4, 자주·평화·민족적 대단결 3원칙) 발표 후 안보·통일을 구실로 비상계엄·국회 해산 → <span class="cloze" onclick="this.classList.toggle('revealed')">유신 헌법</span>(1972.10, 제7차 개헌) 확정</li><li><span class="cloze" onclick="this.classList.toggle('revealed')">유신 헌법</span> 주요 내용: ① <span class="cloze" onclick="this.classList.toggle('revealed')">통일주체국민회의</span>에서 대통령 간선제 선출(박정희 99.92% 득표, '체육관 대통령') 및 국회의원 정원의 <span class="cloze" onclick="this.classList.toggle('revealed')">1/3 추천 선출</span>(유신정우회) ② 대통령 <span class="cloze" onclick="this.classList.toggle('revealed')">임기 6년, 중임 제한 없음</span>(종신 집권) ③ 국회 해산권·법관 임명권 ④ 기본권 제한 및 영장 없는 체포가 가능한 <span class="cloze" onclick="this.classList.toggle('revealed')">긴급조치권</span>(<span class="cloze" onclick="this.classList.toggle('revealed')">긴급조치 1호·9호</span>)</li><li>유신 반대 민주화 운동: <span class="cloze" onclick="this.classList.toggle('revealed')">김대중 납치 사건</span>(1973.8) → 장준하·백기완 등의 <span class="cloze" onclick="this.classList.toggle('revealed')">개헌 청원 100만인 서명 운동</span>(1973) → <span class="cloze" onclick="this.classList.toggle('revealed')">천주교 정의구현사제단</span> 결성(1974), 언론 자유 수호 투쟁 → 명동성당 <span class="cloze" onclick="this.classList.toggle('revealed')">3·1 민주 구국 선언</span>(1976, 함석헌·김대중) / 탄압: <span class="cloze" onclick="this.classList.toggle('revealed')">제2차 인혁당 사건</span> 조작(1974, 8명 사형 집행)</li><li>유신 체제 붕괴 과정: 10대 총선(1978) 야당 신민당 득표율 추월 + <span class="cloze" onclick="this.classList.toggle('revealed')">제2차 석유 파동</span> → <span class="cloze" onclick="this.classList.toggle('revealed')">YH무역 사건</span>(1979.8, 여성 노동자 신민당사 농성 강제 진압) → 여당의 <span class="cloze" onclick="this.classList.toggle('revealed')">김영삼 의원직 제명</span>(1979.10) → <span class="cloze" onclick="this.classList.toggle('revealed')">부·마 민주 항쟁</span>(1979.10, 부산·마산 시위) → 중앙정보부장 <span class="cloze" onclick="this.classList.toggle('revealed')">김재규가 박정희 피살</span>(<span class="cloze" onclick="this.classList.toggle('revealed')">10·26 사태</span>, 1979.10.26)</li></ul>
+          <div class="exam-tip">📌 유신 붕괴 4단계 순서: YH무역 사건(1979.8) → 김영삼 제명(10.4) → 부·마 민주항쟁(10.16) → 10·26 사태(10.26)</div>
+        </div>
+    
+        <div class="card">
+          <div class="card-title">
+            <div>
+              <span class="era-tag" style="margin-right:6px;">5·6공화국</span>
+              <span>11-1. 신군부의 정권 장악과 5·18 광주 민주화 운동 (1979~1980)</span>
+            </div>
+            <button type="button" class="btn" onclick="toggleMemorized('note-11-1')">⬜ 암기 체크</button>
+          </div>
+          <div class="note-context-box">
+            <strong>💡 한 줄 맥락:</strong> 10·26 이후 찾아온 민주화의 봄(서울의 봄)을 전두환 신군부가 12·12 반란과 5·17 계엄 확대로 짓밟자 광주시민들이 목숨 걸고 항쟁했습니다.
+          </div>
+          <ul class="note-list"><li>신군부 장악과 서울의 봄: 10·26 후 통일주체국민회의에서 <span class="cloze" onclick="this.classList.toggle('revealed')">최규하</span> 대통령 선출(1979.12.6) → <span class="cloze" onclick="this.classList.toggle('revealed')">전두환</span> 중심 신군부의 <span class="cloze" onclick="this.classList.toggle('revealed')">12·12 사태</span>(1979.12.12, 군사 반란) → <span class="cloze" onclick="this.classList.toggle('revealed')">서울의 봄</span>(1980.3~5, 유신 철폐·계엄 해제·신군부 퇴진 시위) → 신군부의 <span class="cloze" onclick="this.classList.toggle('revealed')">5·17 비상계엄 전국 확대</span>(1980.5.17, 김대중 구속, 정치 활동 금지, 대학 휴교령)</li><li><span class="cloze" onclick="this.classList.toggle('revealed')">5·18 광주 민주화 운동</span>(1980.5.18~5.27) 전개: 5·17 비상계엄 전국 확대 → <span class="cloze" onclick="this.classList.toggle('revealed')">전남대학교 정문 시위</span>(5.18, 공수부대 폭력 진압) → <span class="cloze" onclick="this.classList.toggle('revealed')">계엄군의 무차별 발포</span>(5.20) → 시민들의 무기 탈취 및 <span class="cloze" onclick="this.classList.toggle('revealed')">시민군 조직</span>(5.21) → <span class="cloze" onclick="this.classList.toggle('revealed')">계엄군의 광주 외곽 철수·봉쇄</span>(5.21) → <span class="cloze" onclick="this.classList.toggle('revealed')">시민 수습 대책 위원회</span> 구성 → <span class="cloze" onclick="this.classList.toggle('revealed')">계엄군의 전남 도청 무력 진압</span>(5.27)</li><li>의의 및 영향: 1980년대 민주화 운동의 토대, 필리핀 등 아시아 민주화 운동에 영향, 국군 작전 통제권을 가진 <span class="cloze" onclick="this.classList.toggle('revealed')">미국</span>이 신군부 병력 동원을 묵인했다고 판단하여 <span class="cloze" onclick="this.classList.toggle('revealed')">반미(反美) 운동 격화</span>(부산 미문화원 방화 사건 등)</li></ul>
+          <div class="exam-tip">📌 5·18 전개 순서: 5·17 계엄확대 → 전남대 시위 → 계엄군 발포 → 시민군 조직 → 계엄군 철수 → 수습대책위 → 도청 진압</div>
+        </div>
+    
+        <div class="card">
+          <div class="card-title">
+            <div>
+              <span class="era-tag" style="margin-right:6px;">5·6공화국</span>
+              <span>11-2. 전두환 정부와 1987년 6월 민주항쟁, 그리고 제6공화국 (1980~2018)</span>
+            </div>
+            <button type="button" class="btn" onclick="toggleMemorized('note-11-2')">⬜ 암기 체크</button>
+          </div>
+          <div class="note-context-box">
+            <strong>💡 한 줄 맥락:</strong> 고문 조작과 호헌 조치로 직선제를 가로막던 전두환 정권이 1987년 6월 민주항쟁에 굴복하면서 현행 5년 단임 대통령 직선제가 확립되었습니다.
+          </div>
+          <ul class="note-list"><li>전두환 정부 성립과 통치: 신군부가 초헌법 기구인 <span class="cloze" onclick="this.classList.toggle('revealed')">국가보위비상대책위원회(국보위)</span> 설치 → <span class="cloze" onclick="this.classList.toggle('revealed')">삼청교육대</span> 운영(강제 노역·인권 유린), 언론 통폐합 → <span class="cloze" onclick="this.classList.toggle('revealed')">제8차 개헌</span>(1980.10, <span class="cloze" onclick="this.classList.toggle('revealed')">7년 단임제</span>, 대통령 선거인단 <span class="cloze" onclick="this.classList.toggle('revealed')">간선제</span>)으로 집권 / <span class="cloze" onclick="this.classList.toggle('revealed')">유화 정책</span>(야간 통행금지 폐지, 과외 금지, 두발·교복 자율화, 프로야구 출범)과 언론 통제(<span class="cloze" onclick="this.classList.toggle('revealed')">보도지침</span>) 병행 / 1980년대 후반 <span class="cloze" onclick="this.classList.toggle('revealed')">3저 호황</span></li><li><span class="cloze" onclick="this.classList.toggle('revealed')">6월 민주항쟁</span>(1987.6) 배경 및 전개: 부천 경찰서 성고문 사건(1986.6) + <span class="cloze" onclick="this.classList.toggle('revealed')">박종철 고문치사 사건</span>(1987.1) 은폐·조작 폭로 → 전두환 정부의 <span class="cloze" onclick="this.classList.toggle('revealed')">4·13 호헌 조치</span>(직선제 개헌 논의 금지) → <span class="cloze" onclick="this.classList.toggle('revealed')">민주 헌법 쟁취 국민운동본부</span> 결성(5.27) → 연세대 <span class="cloze" onclick="this.classList.toggle('revealed')">이한열 학생 최루탄 피격</span>(6.9) → <span class="cloze" onclick="this.classList.toggle('revealed')">6·10 국민 대회</span> 개최('호헌 철폐, 독재 타도') → 노태우의 <span class="cloze" onclick="this.classList.toggle('revealed')">6·29 민주화 선언</span>(직선제 수용) → <span class="cloze" onclick="this.classList.toggle('revealed')">제9차 개헌</span>(1987.10, <span class="cloze" onclick="this.classList.toggle('revealed')">5년 단임 대통령 직선제</span>)</li><li>의의: 군사 독재를 끝내고 평화적 <span class="cloze" onclick="this.classList.toggle('revealed')">정권 교체</span>의 길을 열었으며, 성숙한 시민 사회 성장의 주춧돌이 됨</li><li>제6공화국 주요 정부: 노태우(88 서울올림픽, 북방외교, <span class="cloze" onclick="this.classList.toggle('revealed')">남북 기본 합의서</span> 1991) → 김영삼(하나회 해체, <span class="cloze" onclick="this.classList.toggle('revealed')">금융실명제</span> 1993, 지방자치제 전면 실시 1995, <span class="cloze" onclick="this.classList.toggle('revealed')">IMF 외환위기</span> 1997) → 김대중(최초 평화적 여야 정권교체, IMF 조기상환, 햇볕정책·<span class="cloze" onclick="this.classList.toggle('revealed')">6·15 남북 공동 선언</span> 2000) → 노무현(<span class="cloze" onclick="this.classList.toggle('revealed')">10·4 선언</span> 2007) → 이명박(2007) → 박근혜(2012) → 문재인(2017, <span class="cloze" onclick="this.classList.toggle('revealed')">판문점 선언</span> 2018)</li></ul>
+          <div class="exam-tip">📌 6월 민주항쟁 순서: 박종철 고문치사 → 4·13 호헌조치 → 국민운동본부 결성 → 이한열 최루탄 피격 → 6·10 국민대회 → 6·29 선언</div>
+        </div>
+    </div>
+  </section>
+
+
+  <section id="tab-quiz" class="tab-panel">
+    <div class="card">
+      <div class="card-title">
+        <span>🧩 훈련 1. 사건 발생 순서 맞추기 (기출 빈출)</span>
+        <button class="btn btn-primary" onclick="initOrderGame()">🔄 다른 문제 내기</button>
+      </div>
+      <p style="font-size:0.9rem; color:var(--text-sub); margin-bottom:12px;">위아래 버튼(▲/▼)을 눌러 역사적 사건을 <strong>일어난 순서대로</strong> 정렬한 뒤 정답 확인을 누르세요.</p>
+      <div id="orderList">
+        <div style="font-weight:800; margin-bottom:10px; color:var(--primary);">[문제 1] 한반도 남북 분단 과정 순서 배열 (기출)</div>
+        <div class="order-item"><span>1. 모스크바 3국 외상 회의 (신탁 통치 결정)</span><div style="display:flex; gap:4px; flex-shrink:0;"><button type="button" class="btn" disabled>▲</button><button type="button" class="btn">▼</button></div></div>
+        <div class="order-item"><span>2. 제1차 미·소 공동 위원회 개최 및 결렬</span><div style="display:flex; gap:4px; flex-shrink:0;"><button type="button" class="btn">▲</button><button type="button" class="btn">▼</button></div></div>
+        <div class="order-item"><span>3. 이승만의 정읍 발언 (단독 정부 주장)</span><div style="display:flex; gap:4px; flex-shrink:0;"><button type="button" class="btn">▲</button><button type="button" class="btn">▼</button></div></div>
+        <div class="order-item"><span>4. 좌우 합작 7원칙 발표 (여운형·김규식)</span><div style="display:flex; gap:4px; flex-shrink:0;"><button type="button" class="btn">▲</button><button type="button" class="btn">▼</button></div></div>
+        <div class="order-item"><span>5. 미국의 한국 문제 유엔 상정</span><div style="display:flex; gap:4px; flex-shrink:0;"><button type="button" class="btn">▲</button><button type="button" class="btn">▼</button></div></div>
+        <div class="order-item"><span>6. 남북 협상 개최 (평양 남북 연석회의)</span><div style="display:flex; gap:4px; flex-shrink:0;"><button type="button" class="btn">▲</button><button type="button" class="btn">▼</button></div></div>
+        <div class="order-item"><span>7. 5·10 총선거 실시 및 대한민국 정부 수립</span><div style="display:flex; gap:4px; flex-shrink:0;"><button type="button" class="btn">▲</button><button type="button" class="btn" disabled>▼</button></div></div>
+      </div>
+      <div style="margin-top:12px; display:flex; gap:10px; align-items:center;">
+        <button class="btn btn-primary" onclick="checkOrderGame()">✅ 순서 정답 확인</button>
+        <span id="orderFeedback" style="font-weight:700; font-size:0.95rem;"></span>
+      </div>
+    </div>
+
+
+    <div class="card">
+      <div class="card-title">
+        <span>✍️ 훈련 2. 학습지 핵심 개념 객관식 퀴즈</span>
+        <span id="quizScoreBadge" class="era-tag">점수: 0 / 7</span>
+      </div>
+      <div id="quizContainer">
+      <div style="margin-bottom:22px; padding-bottom:18px; border-bottom:1px solid var(--border);">
+        <div style="font-weight:700; margin-bottom:10px; font-size:0.98rem;">1. 1951년 7월부터 시작된 6·25 전쟁 정전 회담에서 2년이 넘도록 합의하기 가장 어려웠던 두 가지 의제는?</div>
+        <div id="q-opts-0"><button type="button" class="quiz-option" onclick="answerQuiz(0, 0, this)">1) 배상금 지급 문제와 일본군 무장 해제 문제</button><button type="button" class="quiz-option" onclick="answerQuiz(0, 1, this)">2) 휴전선(군사 분계선) 설정 문제와 포로 교환 방식 문제</button><button type="button" class="quiz-option" onclick="answerQuiz(0, 2, this)">3) 주한미군 철수 시기와 경제 원조 규모 문제</button><button type="button" class="quiz-option" onclick="answerQuiz(0, 3, this)">4) 신탁 통치 기간 문제와 총선거 감시단 파견 문제</button></div>
+        <div id="q-exp-0" style="display:none; margin-top:8px; padding:10px 12px; background:#f1f5f9; border-radius:8px; font-size:0.88rem; color:var(--text-sub);"></div>
+      </div>
+    
+      <div style="margin-bottom:22px; padding-bottom:18px; border-bottom:1px solid var(--border);">
+        <div style="font-weight:700; margin-bottom:10px; font-size:0.98rem;">2. 1950년대 미국의 잉여 농산물 원조를 가공하며 발달한 소비재 공업(제분·제당·면방직)을 일컫는 말은?</div>
+        <div id="q-opts-1"><button type="button" class="quiz-option" onclick="answerQuiz(1, 0, this)">1) 중화학 공업</button><button type="button" class="quiz-option" onclick="answerQuiz(1, 1, this)">2) 삼백 산업(三白産業)</button><button type="button" class="quiz-option" onclick="answerQuiz(1, 2, this)">3) 방위 산업</button><button type="button" class="quiz-option" onclick="answerQuiz(1, 3, this)">4) 천리마 산업</button></div>
+        <div id="q-exp-1" style="display:none; margin-top:8px; padding:10px 12px; background:#f1f5f9; border-radius:8px; font-size:0.88rem; color:var(--text-sub);"></div>
+      </div>
+    
+      <div style="margin-bottom:22px; padding-bottom:18px; border-bottom:1px solid var(--border);">
+        <div style="font-weight:700; margin-bottom:10px; font-size:0.98rem;">3. 1956년 제3대 대통령 선거 이후 이승만 정권이 반공을 내세워 평화 통일을 주장한 조봉암과 간부들을 간첩죄로 구속·사형시킨 사건은?</div>
+        <div id="q-opts-2"><button type="button" class="quiz-option" onclick="answerQuiz(2, 0, this)">1) 국회 프락치 사건</button><button type="button" class="quiz-option" onclick="answerQuiz(2, 1, this)">2) 진보당 사건</button><button type="button" class="quiz-option" onclick="answerQuiz(2, 2, this)">3) 제2차 인혁당 사건</button><button type="button" class="quiz-option" onclick="answerQuiz(2, 3, this)">4) 부천서 성고문 사건</button></div>
+        <div id="q-exp-2" style="display:none; margin-top:8px; padding:10px 12px; background:#f1f5f9; border-radius:8px; font-size:0.88rem; color:var(--text-sub);"></div>
+      </div>
+    
+      <div style="margin-bottom:22px; padding-bottom:18px; border-bottom:1px solid var(--border);">
+        <div style="font-weight:700; margin-bottom:10px; font-size:0.98rem;">4. 5·16 군사 정변 세력이 헌정 질서를 중단시키고 국가 권력을 장악하기 위해 설치한 최고 통치 기구는?</div>
+        <div id="q-opts-3"><button type="button" class="quiz-option" onclick="answerQuiz(3, 0, this)">1) 국가 보위 비상 대책 위원회</button><button type="button" class="quiz-option" onclick="answerQuiz(3, 1, this)">2) 통일 주체 국민 회의</button><button type="button" class="quiz-option" onclick="answerQuiz(3, 2, this)">3) 국가 재건 최고 회의</button><button type="button" class="quiz-option" onclick="answerQuiz(3, 3, this)">4) 반민족 행위 특별 조사 위원회</button></div>
+        <div id="q-exp-3" style="display:none; margin-top:8px; padding:10px 12px; background:#f1f5f9; border-radius:8px; font-size:0.88rem; color:var(--text-sub);"></div>
+      </div>
+    
+      <div style="margin-bottom:22px; padding-bottom:18px; border-bottom:1px solid var(--border);">
+        <div style="font-weight:700; margin-bottom:10px; font-size:0.98rem;">5. 1972년 유신 헌법에 따라 대통령을 간선제로 선출하고, 대통령 추천으로 국회의원 정원의 1/3을 선출한 기구는?</div>
+        <div id="q-opts-4"><button type="button" class="quiz-option" onclick="answerQuiz(4, 0, this)">1) 국가 보위 비상 대책 위원회</button><button type="button" class="quiz-option" onclick="answerQuiz(4, 1, this)">2) 통일 주체 국민 회의</button><button type="button" class="quiz-option" onclick="answerQuiz(4, 2, this)">3) 민주 헌법 쟁취 국민운동본부</button><button type="button" class="quiz-option" onclick="answerQuiz(4, 3, this)">4) 좌우 합작 위원회</button></div>
+        <div id="q-exp-4" style="display:none; margin-top:8px; padding:10px 12px; background:#f1f5f9; border-radius:8px; font-size:0.88rem; color:var(--text-sub);"></div>
+      </div>
+    
+      <div style="margin-bottom:22px; padding-bottom:18px; border-bottom:1px solid var(--border);">
+        <div style="font-weight:700; margin-bottom:10px; font-size:0.98rem;">6. 5·18 광주 민주화 운동 이후 반미(反美) 운동이 격화되게 된 주된 이유는?</div>
+        <div id="q-opts-5"><button type="button" class="quiz-option" onclick="answerQuiz(5, 0, this)">1) 미국이 북한과 비밀리에 불가침 조약을 체결했기 때문이다.</button><button type="button" class="quiz-option" onclick="answerQuiz(5, 1, this)">2) 국군의 작전 통제권을 가진 미국이 신군부의 광주 진압 병력 동원을 묵인·방조했다고 판단했기 때문이다.</button><button type="button" class="quiz-option" onclick="answerQuiz(5, 2, this)">3) 미국이 한국에 대한 잉여 농산물 원조를 갑자기 중단했기 때문이다.</button><button type="button" class="quiz-option" onclick="answerQuiz(5, 3, this)">4) 미국이 한·일 기본 조약 체결을 반대했기 때문이다.</button></div>
+        <div id="q-exp-5" style="display:none; margin-top:8px; padding:10px 12px; background:#f1f5f9; border-radius:8px; font-size:0.88rem; color:var(--text-sub);"></div>
+      </div>
+    
+      <div style="margin-bottom:22px; padding-bottom:18px; border-bottom:1px solid var(--border);">
+        <div style="font-weight:700; margin-bottom:10px; font-size:0.98rem;">7. 전두환 정부 시기 언론의 보도 방향과 내용을 통제하기 위해 정부가 매일 언론사에 내려보낸 지침은?</div>
+        <div id="q-opts-6"><button type="button" class="quiz-option" onclick="answerQuiz(6, 0, this)">1) 긴급조치</button><button type="button" class="quiz-option" onclick="answerQuiz(6, 1, this)">2) 보도지침</button><button type="button" class="quiz-option" onclick="answerQuiz(6, 2, this)">3) 브라운 각서</button><button type="button" class="quiz-option" onclick="answerQuiz(6, 3, this)">4) 4·13 호헌 조치</button></div>
+        <div id="q-exp-6" style="display:none; margin-top:8px; padding:10px 12px; background:#f1f5f9; border-radius:8px; font-size:0.88rem; color:var(--text-sub);"></div>
+      </div>
+    </div>
+    </div>
+  </section>
+
+
+  <section id="tab-add" class="tab-panel">
+    <div class="card">
+      <div class="card-title">
+        <span>➕ 추가 자료 직접 등록하고 새 HTML 파일로 저장하기</span>
+      </div>
+      <p style="font-size:0.9rem; color:var(--text-sub); margin-bottom:16px;">
+        나중에 프린트나 교과서 내용이 추가되면 아래 양식에 입력해 추가하세요. <strong>[업데이트된 index.html 다운로드]</strong>를 누르면 방금 추가한 내용까지 코드에 영구 반영된 새 파일이 생성되므로 깃허브에 덮어쓰기만 하면 됩니다!
+      </p>
+
+
+      <div class="form-group">
+        <label>단원 / 시대 분류</label>
+        <select id="newEra">
+          <option value="해방공간">해방과 분단(44~48)</option>
+          <option value="정부수립">정부수립·개혁(48~50)</option>
+          <option value="625전쟁">6·25 전쟁(50~53)</option>
+          <option value="1_2공화국">이승만·4.19·2공(52~61)</option>
+          <option value="3_4공화국">박정희·유신(61~79)</option>
+          <option value="5_6공화국">전두환·민주화이후(79~18)</option>
+        </select>
+      </div>
+
+
+      <div class="form-group">
+        <label>카드 제목 (예: 1948년 반민특위 활동과 한계)</label>
+        <input type="text" id="newTitle" placeholder="제목을 입력하세요" />
+      </div>
+
+
+      <div class="form-group">
+        <label>맥락 요약 (왜 중요하고 어떤 흐름인가요?)</label>
+        <input type="text" id="newContext" placeholder="예: 친일파 청산을 위해 만들었으나 이승만 정부의 방해로 좌절된 사건" />
+      </div>
+
+
+      <div class="form-group">
+        <label>핵심 암기 내용 (줄바꿈으로 구분, 중요한 단어는 [대괄호]로 묶으면 빈칸 뚫기 자동 적용!)</label>
+        <textarea id="newBullets" placeholder="예:&#10;제헌 국회에서 [반민족 행위 처벌법] 제정(1948.9)&#10;국회 직속 [반민특위]를 구성해 박흥식, 노덕술 등을 체포&#10;[국회 프락치 사건]과 경찰의 반민특위 습격으로 와해됨"></textarea>
+      </div>
+
+
+      <div class="form-group">
+        <label>시험 포인트 / 암기 팁 (선택)</label>
+        <input type="text" id="newTip" placeholder="예: 반민특위 해체 이유 = 이승만 정부가 '반공'을 구실로 내세움!" />
+      </div>
+
+
+      <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn btn-primary" onclick="addNewNote()">➕ 정리노트에 추가하기</button>
+        <button class="btn" style="background:var(--success-light); color:var(--success); border-color:var(--success);" onclick="exportUpdatedHTML()">💾 업데이트된 index.html 다운로드</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+
+<script id="app-data-script">
+const DEFAULT_NOTES = [
+  {
+    id: "note-1",
+    era: "해방공간",
+    title: "1. 광복 직전·직후 건국 준비와 38도선 획정 (1944~1945.9)",
+    context: "일본 패망 직전 여운형이 치안과 행정권을 준비했으나, 미·소의 분할 점령과 냉전으로 좌우익이 갈라지기 시작했습니다.",
+    bullets: [
+      "1944.8 [여운형]이 광복을 준비하기 위해 비밀 단체인 [조선 건국 동맹] 조직",
+      "1945.8.15 여운형·안재홍 중심으로 좌우익을 망라한 [조선 건국 준비 위원회(건준)] 결성 → 전국 지부 설치 및 [치안대] 조직",
+      "38도선 획정: 히로시마 원폭 투하 → 소련 참전 → 미국 38도선 분할 제안 → 일본 항복 → 미·소 군대 진주",
+      "1945.9.6 좌익 세력이 미군 진주 전 [조선 인민 공화국(인공)] 선포(이승만 주석 거부, 지부는 인민위원회로 전환) ↔ 송진우·김성수 등 우익은 [한국 민주당(한민당)] 결성",
+      "광복 직후 주요 세력: [이승만](독립촉성중앙협의회·반공), [김구](한국독립당·임정계승), [박헌영](조선공산당), [여운형](조선인민당·중도좌파)"
+    ],
+    tip: "시험 포인트: 미군정은 대한민국 임시정부와 조선 인민 공화국을 모두 인정하지 않고 직접 통치했습니다."
+  },
+  {
+    id: "note-2",
+    era: "해방공간",
+    title: "2. 모스크바 3국 외상 회의와 찬탁·반탁 대립 (1945.12)",
+    context: "한반도 독립 방법을 논의한 국제 회의에서 '신탁 통치' 문구가 알려지며 국내 정치 세력이 반탁(우익)과 찬탁(좌익)으로 완전히 갈라졌습니다.",
+    bullets: [
+      "결정 사항 3가지: ① 한반도에 [임시 민주 정부] 수립 ② 이를 지원할 [미·소 공동 위원회] 설치 ③ 최대 5년간 미·영·중·소 4개국 [신탁 통치] 실시 협의",
+      "우익(이승만, 김구, 한민당): 신탁 통치를 식민지배의 연장으로 보고 격렬한 [반탁 운동] 전개 (친일파도 애국 세력으로 변신 가담)",
+      "좌익(조선공산당 등): 처음엔 반대했으나 회의 본질이 임시 민주 정부 수립에 있다고 보고 [총체적 지지(찬탁)]로 전환"
+    ],
+    tip: "암기 팁: 모스크바 회의 3대 결정 = [임·미·신] (임시민주정부, 미소공동위원회, 신탁통치)"
+  },
+  {
+    id: "note-3",
+    era: "해방공간",
+    title: "3. 미·소 공위 결렬과 통일 정부 수립 노력 (1946~1948.4)",
+    context: "미국과 소련의 대립으로 통일 정부 수립이 어려워지자 중도파(좌우합작)와 민족주의 세력(남북협상)이 분단을 막기 위해 필사적으로 노력했습니다.",
+    bullets: [
+      "제1차 [미·소 공동 위원회](1946.3~5): 협의 대상을 두고 대립(미국: 모든 정치 세력 vs 소련: 모스크바 결정 지지 세력만) → 무기 휴회",
+      "이승만의 [정읍 발언](1946.6): 남한만이라도 단독 임시 정부를 수립할 것을 촉구",
+      "[좌우합작 위원회](1946.7): 중도파 [여운형·김규식]이 미군정 지원으로 조직 → [좌우합작 7원칙] 발표(통일 임시정부, 유상매입·무상분배 토지개혁, 친일파 처벌) → 좌우익 비협조와 1947.7 여운형 암살로 중단",
+      "제2차 미소공위 결렬(1947.5) 후 미국이 한국 문제를 [유엔(UN)]에 이관 → 소련 입북 거부 → 유엔 소총회에서 [선거 가능한 지역(남한)만 총선거] 결의(1948.2.26)",
+      "[남북 협상](1948.4): [김구·김규식]이 평양의 남북 연석회의에 참여해 외국군 즉시 철수·단독선거 반대 공동성명을 발표했으나 실패"
+    ],
+    tip: "연계 흐름: 1차 미소공위 결렬 → 정읍발언 → 좌우합작 7원칙 → 2차 미소공위 결렬 → UN 이관 → 남북협상"
+  },
+  {
+    id: "note-4",
+    era: "해방공간",
+    title: "4. 단독 정부 수립 반대: 제주 4·3 사건과 여순 사건 (1948)",
+    context: "남한만의 단독 선거(5·10 총선) 추진에 반대하는 과정에서 발생한 비극적 무장 충돌과 민간인 희생 사건입니다.",
+    bullets: [
+      "[제주 4·3 사건](1948.4.3): 1947년 3·1절 기념시위 경찰 발포로 제주 민심 악화 → 1948.4.3 남로당 제주도당 등이 단독 선거 반대 무장봉기 → 미군정과 이승만 정부의 계엄령·강경 진압으로 수많은 양민 희생(1954.9 종결)",
+      "[여수·순천 10·19 사건](1948.10.19): 정부 수립 후 여수 주둔 군부대에 [제주 4·3 사건 진압 출동 명령]이 내려지자, 부대 내 좌익 세력이 이에 반대하며 무장 봉기 → 진압 과정에서 다수 민간인 희생, 일부는 지리산 빨치산으로 활동"
+    ],
+    tip: "구분 포인트: 제주 4·3은 5·10 총선 '전'(4월), 여순 사건은 정부 수립 '후'(10월, 제주 출동 거부)에 발생했습니다."
+  },
+  {
+    id: "note-5",
+    era: "정부수립",
+    title: "5. 대한민국 정부 수립과 친일파 청산의 좌절 (1948~1949)",
+    context: "최초의 민주적 보통선거로 대한민국 정부가 출범했으나, 친일 잔재 청산은 이승만 정부의 비협조와 방해로 좌절되었습니다.",
+    bullets: [
+      "[5·10 총선거](1948.5.10): 우리나라 최초의 보통·민주 선거 (제주도 2개 선거구 제외 198명 선출, 김구·김규식 및 좌익 불참)",
+      "[제헌 국회] 구성(5.31) → 국호 '대한민국' 결정 → [제헌 헌법] 공포(7.17, [대한민국 임시 정부의 법통 계승] 명시, 대통령 중심제, 단원제)",
+      "국회 간선제로 초대 대통령 [이승만], 부통령 이시영 선출(7.20) → [대한민국 정부 수립 선포](1948.8.15) → 유엔 총회 유일 합법 정부 승인(1948.12)",
+      "북한 정권 수립: 1946.2 북조선 임시 인민 위원회(김일성) → 1946.3 토지개혁 → 1948.9.9 [조선 민주주의 인민 공화국] 수립",
+      "친일파 청산 좌절: 제헌국회가 [반민족 행위 처벌법] 제정(1948.9) 및 국회 직속 [반민특위] 구성(박흥식, 노덕술, 이광수 등 체포) → 이승만 정부가 [반공]을 내세워 견제([국회 프락치 사건], 경찰의 반민특위 습격, 공소시효 단축)하며 와해됨"
+    ],
+    tip: "서술형 단골: 이승만 정부가 반민특위를 해체시키려 한 이유 = '반공(공산당과 내통했다는 구실)'을 내세웠기 때문입니다."
+  },
+  {
+    id: "note-6",
+    era: "정부수립",
+    title: "6. 농지개혁법과 귀속재산 처리법 (1949)",
+    context: "일제강점기부터 이어진 지주·소작제를 없애고 자작농을 육성하기 위해 실시된 경제 개혁입니다.",
+    bullets: [
+      "[농지개혁법](1949.6): [경자유전]의 원칙에 따라 [유상 매수 · 유상 분배] 방식으로 실시",
+      "핵심 내용: 가구당 소유 상한 [3정보] 제한, 초과 농지는 [지가 증권]을 발급해 매입 후 농민에게 매각(평년작 1.5배를 5년간 분할 상환)",
+      "결과 및 한계: 지주·소작제가 거의 소멸되어 농민 대다수가 자기 땅을 갖게 됨. 단, 농지가 아닌 임야 등은 제외되었고 상환 부담으로 다시 소작농이 된 경우도 있음",
+      "[귀속재산 처리법](1949.12): 일본인이 남기고 간 재산(적산)을 민간에 불하 → 특정 기업에 대한 특혜 부작용 노출"
+    ],
+    tip: "비교 필수: 남한은 '유상매수·유상분배(3정보)', 북한은 '무상몰수·무상분배(5정보)'입니다."
+  },
+  {
+    id: "note-7",
+    era: "625전쟁",
+    title: "7. 6·25 전쟁의 배경과 4단계 전개 과정 (1950~1953)",
+    context: "냉전 체제가 실제 열전(전쟁)으로 폭발한 비극으로, 전선이 낙동강까지 밀렸다가 압록강까지 올라간 뒤 다시 38선 부근에서 고착되었습니다.",
+    bullets: [
+      "배경: 38선 부근 잦은 무력 충돌, 북한의 전쟁 준비(소련 무기 지원, 조선의용군 편입), 미국의 [애치슨 선언](1950.1, 태평양 방위선에서 한국·타이완 제외)",
+      "1기(북한 공세): 1950.6.25 기습 남침 → 3일 만에 서울 함락 → [낙동강 방어선]까지 후퇴 → 유엔 안보리 결의로 [유엔군 참전]",
+      "2기(국군·유엔군 반격): 1950.9.15 [인천 상륙 작전] 성공 → 9.28 서울 수복 → 평양 점령 후 [압록강]까지 진격",
+      "3기(중국군 개입): 1950.11 중국군 대규모 개입 → 1951.1 [1·4 후퇴](서울 재함락)",
+      "4기(전선 교착 및 정전): 서울 재탈환 후 38선 부근 교착 → 1951.7 소련 제의로 정전회담 시작([휴전선 설정 문제], [포로 교환 방식 문제]로 난항) → 이승만의 북진통일 주장 및 [반공포로 석방](1953.6.18) → [정전 협정 체결](1953.7.27, 비무장지대 설치) → [한·미 상호 방위 조약] 체결(1953.10)"
+    ],
+    tip: "정전 회담 가장 합의하기 어려웠던 의제 2가지 = ① 휴전선(군사분계선) 설정 문제 ② 포로 교환 방식 문제"
+  },
+  {
+    id: "note-8",
+    era: "625전쟁",
+    title: "8. 6·25 전쟁의 영향과 1950년대 남북 경제·사회",
+    context: "전쟁 후 남한은 미국 원조 경제(삼백산업)에 의존했고, 북한은 김일성 1인 독재와 사회주의 집단화·천리마 운동을 추진했습니다.",
+    bullets: [
+      "전쟁 피해와 국제 변화: 민간인 학살(국군: [거창 양민 학살], [국민 보도 연맹 사건] / 북한군: 인민재판 학살), 주한미군 주둔([한·미 상호 방위 조약]), [일본]은 [6·25 전쟁 특수]로 경제 부흥 및 아시아 반공 거점화",
+      "1950년대 남한 원조 경제: 미국의 소비재·잉여 농산물 원조 → [삼백 산업]([제분·제당·면방직]) 중심 공업화 발달",
+      "원조 경제의 한계: 특정 기업 편중 배정으로 [정경유착] 및 독점 부작용 발생, 미국 잉여 농산물 유입으로 국내 곡가 폭락 → [농촌 경제 피폐] 및 이농 증가",
+      "전후 북한의 독재와 경제: 전쟁 책임을 물어 [박헌영 계열] 숙청(1953~55) 및 [김두봉 계열] 숙청 → [김일성 1인 독재 체제] 확립, 농업·상공업 [협동조합] 집단화, 노동 생산성 향상을 위한 [천리마 운동](1956) 전개"
+    ],
+    tip: "삼백산업(三白産業) = 밀가루(제분), 설탕(제당), 면화(면방직)처럼 하얀 원료를 가공하는 1950년대 소비재 공업!"
+  },
+  {
+    id: "note-9-1",
+    era: "1_2공화국",
+    title: "9-1. 이승만 장기 집권 개헌과 반공 독재 탄압 (1952~1959)",
+    context: "국회 간선제로는 재선이 어렵게 된 이승만 정권이 폭력적인 개헌(발췌·사사오입)과 반공 탄압(진보당 사건)으로 독재를 연장했습니다.",
+    bullets: [
+      "[발췌 개헌](1952.7, 1차 개헌): 2대 총선(1950)에서 반이승만 후보 대거 당선 + [국민방위군 사건] 폭로로 간선제 재선 불가능 → 자유당 창당(1951.12) → 임시 수도 [부산] 계엄령 선포 및 야당 의원 연행·구속([부산 정치 파동]) → 경찰·군인 국회 포위 속 기립 표결로 [대통령 직선제] 통과",
+      "[사사오입 개헌](1954.11, 2차 개헌): [초대 대통령에 한해 중임 제한 철폐] 개헌안 표결 → 찬성 135표(정족수 136표에 1표 부족)로 부결 선포 후, 이틀 뒤 반올림([사사오입]) 논리로 가결 번복",
+      "1956년 제3대 대선 이후 위기: 대통령 이승만 당선, 무소속 [조봉암]이 30%(216만 표) 득표 돌풍, 부통령에 야당 [장면](민주당) 당선",
+      "반공 독재 탄압: 평화 통일을 주장한 진보당 당수 [조봉암]을 간첩죄로 구속·정당 등록 취소 후 사형 집행([진보당 사건], 1958~59), [신국가보안법] 개정(1958), 정부 비판 언론인 [경향신문 폐간](1959)"
+    ],
+    tip: "구분 암기: 발췌 개헌(1952) = '대통령 직선제' / 사사오입 개헌(1954) = '초대 대통령 중임 제한 철폐'"
+  },
+  {
+    id: "note-9-2",
+    era: "1_2공화국",
+    title: "9-2. 4·19 혁명과 장면 내각(제2공화국) (1960~1961)",
+    context: "3·15 부정 선거에 분노한 학생과 시민들이 이승만 독재를 무너뜨리고 민주적인 제2공화국(장면 내각)을 출범시켰습니다.",
+    bullets: [
+      "[3·15 부정 선거](1960): 고령의 이승만 유고 시 야당 부통령(장면)의 승계를 막고 자유당 [이기붕]을 부통령에 당선시키려 부정 자행([4할 사전투표], [3인조·5인조 공개투표], 완장부대, 야당 참관인 축출)",
+      "[4·19 혁명] 전개 순서: 1차 마산 시위(3.15) → 최루탄에 숨진 [김주열 학생 시신 발견](4.11) → 2차 마산 시위·고려대 시위(4.18) → 4·19 시위대 [경무대] 행진에 경찰 무차별 발포·비상계엄 선포 → [대학 교수단 시국 선언](4.25) → [이승만 대통령 하야](4.26)",
+      "의의: 학생과 각계각층 시민이 참여하여 독재 정권을 무너뜨린 반독재 민주 혁명",
+      "[장면 내각](제2공화국): 허정 과도정부 주도 [3차 개헌]([내각 책임제], 양원제 국회) → 7·29 총선 민주당 압승 → 윤보선 대통령, [장면 국무총리] 선출",
+      "장면 내각 정책과 한계: [지방 자치제 실시], 공무원 공개 채용 도입, [경제 개발 5개년 계획 수립], [4차 개헌]([소급 입법 개헌]으로 부정선거 처벌) / 시민사회의 [남북 학생 회담] 등 평화 통일 운동 활성화 ↔ 민주당 파벌 싸움과 혼란 속 [5·16 군사 정변](1961)으로 붕괴"
+    ],
+    tip: "4·19 순서: 3·15 부정선거 → 1차 마산시위 → 김주열 시신 발견 → 4·19 발포·계엄 → 교수단 시국선언 → 이승만 하야"
+  },
+  {
+    id: "note-10-1",
+    era: "3_4공화국",
+    title: "10-1. 5·16 군사 정변과 박정희 정부(제3공화국) (1961~1971)",
+    context: "군사 정변으로 집권한 박정희 정부는 한일 협정과 베트남 파병으로 경제 개발 자금을 마련했으나, 3선 개헌으로 장기 집권의 길로 들어섰습니다.",
+    bullets: [
+      "[5·16 군사 정변](1961.5.16): 육군 소장 [박정희] 중심 군정([국가 재건 최고 회의], [중앙정보부] 설치) → [제5차 개헌](1962.12, 4년 중임 대통령 중심제, 직선제, 국회 단원제) 후 1963년 제5대 대통령 당선",
+      "[한·일 협정 체결](1965.6.22): 경제 개발 자금 확보와 미국의 한·미·일 안보 협력 요구 → [김종필-오히라 비밀 회담] → 식민 지배 사죄·배상 없는 굴욕 외교 반대 [6·3 시위](1964)를 비상계엄으로 진압 후 체결(무상 3억·차관 3억 달러 도입)",
+      "[베트남 전쟁 파병](1964~1973): 미국 요청으로 파병 → [브라운 각서](1966, 국군 현대화 장비 지원, 경제 개발 기술·차관 제공 약속) → [베트남 특수]로 경제 성장 발판 마련 / 한계: 장병 희생, [고엽제] 피해, [라이따이한] 문제, 민간인 희생",
+      "[3선 개헌](1969.9.14, 제6차 개헌): 대통령의 [3회 연임] 허용 개헌안을 야당 저지를 피해 국회 제3별관에서 변칙 통과 → 1971년 제7대 대선에서 야당 후보 [김대중]을 힘겹게 누르고 당선"
+    ],
+    tip: "연결 키워드: 한일협정 = 김종필·오히라 메모 + 6·3 시위 / 베트남 파병 = 브라운 각서(1966) + 베트남 특수"
+  },
+  {
+    id: "note-10-2",
+    era: "3_4공화국",
+    title: "10-2. 유신 체제의 성립과 민주화 운동, 그리고 붕괴 (1972~1979)",
+    context: "종신 집권을 위한 10월 유신으로 삼권 분립과 기본권이 정지되었으나, 시민·종교·노동계의 치열한 저항 끝에 부마항쟁과 10·26으로 붕괴했습니다.",
+    bullets: [
+      "성립 배경과 10월 유신: [닉슨 독트린](1969)으로 냉전 완화 + 경기 침체 → [7·4 남북 공동 성명](1972.7.4, 자주·평화·민족적 대단결 3원칙) 발표 후 안보·통일을 구실로 비상계엄·국회 해산 → [유신 헌법](1972.10, 제7차 개헌) 확정",
+      "[유신 헌법] 주요 내용: ① [통일주체국민회의]에서 대통령 간선제 선출(박정희 99.92% 득표, '체육관 대통령') 및 국회의원 정원의 [1/3 추천 선출](유신정우회) ② 대통령 [임기 6년, 중임 제한 없음](종신 집권) ③ 국회 해산권·법관 임명권 ④ 기본권 제한 및 영장 없는 체포가 가능한 [긴급조치권]([긴급조치 1호·9호])",
+      "유신 반대 민주화 운동: [김대중 납치 사건](1973.8) → 장준하·백기완 등의 [개헌 청원 100만인 서명 운동](1973) → [천주교 정의구현사제단] 결성(1974), 언론 자유 수호 투쟁 → 명동성당 [3·1 민주 구국 선언](1976, 함석헌·김대중) / 탄압: [제2차 인혁당 사건] 조작(1974, 8명 사형 집행)",
+      "유신 체제 붕괴 과정: 10대 총선(1978) 야당 신민당 득표율 추월 + [제2차 석유 파동] → [YH무역 사건](1979.8, 여성 노동자 신민당사 농성 강제 진압) → 여당의 [김영삼 의원직 제명](1979.10) → [부·마 민주 항쟁](1979.10, 부산·마산 시위) → 중앙정보부장 [김재규가 박정희 피살]([10·26 사태], 1979.10.26)"
+    ],
+    tip: "유신 붕괴 4단계 순서: YH무역 사건(1979.8) → 김영삼 제명(10.4) → 부·마 민주항쟁(10.16) → 10·26 사태(10.26)"
+  },
+  {
+    id: "note-11-1",
+    era: "5_6공화국",
+    title: "11-1. 신군부의 정권 장악과 5·18 광주 민주화 운동 (1979~1980)",
+    context: "10·26 이후 찾아온 민주화의 봄(서울의 봄)을 전두환 신군부가 12·12 반란과 5·17 계엄 확대로 짓밟자 광주시민들이 목숨 걸고 항쟁했습니다.",
+    bullets: [
+      "신군부 장악과 서울의 봄: 10·26 후 통일주체국민회의에서 [최규하] 대통령 선출(1979.12.6) → [전두환] 중심 신군부의 [12·12 사태](1979.12.12, 군사 반란) → [서울의 봄](1980.3~5, 유신 철폐·계엄 해제·신군부 퇴진 시위) → 신군부의 [5·17 비상계엄 전국 확대](1980.5.17, 김대중 구속, 정치 활동 금지, 대학 휴교령)",
+      "[5·18 광주 민주화 운동](1980.5.18~5.27) 전개: 5·17 비상계엄 전국 확대 → [전남대학교 정문 시위](5.18, 공수부대 폭력 진압) → [계엄군의 무차별 발포](5.20) → 시민들의 무기 탈취 및 [시민군 조직](5.21) → [계엄군의 광주 외곽 철수·봉쇄](5.21) → [시민 수습 대책 위원회] 구성 → [계엄군의 전남 도청 무력 진압](5.27)",
+      "의의 및 영향: 1980년대 민주화 운동의 토대, 필리핀 등 아시아 민주화 운동에 영향, 국군 작전 통제권을 가진 [미국]이 신군부 병력 동원을 묵인했다고 판단하여 [반미(反美) 운동 격화](부산 미문화원 방화 사건 등)"
+    ],
+    tip: "5·18 전개 순서: 5·17 계엄확대 → 전남대 시위 → 계엄군 발포 → 시민군 조직 → 계엄군 철수 → 수습대책위 → 도청 진압"
+  },
+  {
+    id: "note-11-2",
+    era: "5_6공화국",
+    title: "11-2. 전두환 정부와 1987년 6월 민주항쟁, 그리고 제6공화국 (1980~2018)",
+    context: "고문 조작과 호헌 조치로 직선제를 가로막던 전두환 정권이 1987년 6월 민주항쟁에 굴복하면서 현행 5년 단임 대통령 직선제가 확립되었습니다.",
+    bullets: [
+      "전두환 정부 성립과 통치: 신군부가 초헌법 기구인 [국가보위비상대책위원회(국보위)] 설치 → [삼청교육대] 운영(강제 노역·인권 유린), 언론 통폐합 → [제8차 개헌](1980.10, [7년 단임제], 대통령 선거인단 [간선제])으로 집권 / [유화 정책](야간 통행금지 폐지, 과외 금지, 두발·교복 자율화, 프로야구 출범)과 언론 통제([보도지침]) 병행 / 1980년대 후반 [3저 호황]",
+      "[6월 민주항쟁](1987.6) 배경 및 전개: 부천 경찰서 성고문 사건(1986.6) + [박종철 고문치사 사건](1987.1) 은폐·조작 폭로 → 전두환 정부의 [4·13 호헌 조치](직선제 개헌 논의 금지) → [민주 헌법 쟁취 국민운동본부] 결성(5.27) → 연세대 [이한열 학생 최루탄 피격](6.9) → [6·10 국민 대회] 개최('호헌 철폐, 독재 타도') → 노태우의 [6·29 민주화 선언](직선제 수용) → [제9차 개헌](1987.10, [5년 단임 대통령 직선제])",
+      "의의: 군사 독재를 끝내고 평화적 [정권 교체]의 길을 열었으며, 성숙한 시민 사회 성장의 주춧돌이 됨",
+      "제6공화국 주요 정부: 노태우(88 서울올림픽, 북방외교, [남북 기본 합의서] 1991) → 김영삼(하나회 해체, [금융실명제] 1993, 지방자치제 전면 실시 1995, [IMF 외환위기] 1997) → 김대중(최초 평화적 여야 정권교체, IMF 조기상환, 햇볕정책·[6·15 남북 공동 선언] 2000) → 노무현([10·4 선언] 2007) → 이명박(2007) → 박근혜(2012) → 문재인(2017, [판문점 선언] 2018)"
+    ],
+    tip: "6월 민주항쟁 순서: 박종철 고문치사 → 4·13 호헌조치 → 국민운동본부 결성 → 이한열 최루탄 피격 → 6·10 국민대회 → 6·29 선언"
+  }
+];
+
+
+const ORDER_PROBLEMS = [
+  {
+    title: "한반도 남북 분단 과정 순서 배열 (학습지 기출)",
+    items: [
+      { step: 1, text: "모스크바 3국 외상 회의 (신탁 통치 결정)" },
+      { step: 2, text: "제1차 미·소 공동 위원회 개최 및 결렬" },
+      { step: 3, text: "이승만의 정읍 발언 (단독 정부 주장)" },
+      { step: 4, text: "좌우 합작 7원칙 발표 (여운형·김규식)" },
+      { step: 5, text: "미국의 한국 문제 유엔 상정" },
+      { step: 6, text: "남북 협상 개최 (평양 남북 연석회의)" },
+      { step: 7, text: "5·10 총선거 실시 및 대한민국 정부 수립" }
+    ]
+  },
+  {
+    title: "6·25 전쟁 전개 과정 순서 배열 (학습지 기출)",
+    items: [
+      { step: 1, text: "북한의 기습 남침과 낙동강 전선까지 후퇴" },
+      { step: 2, text: "인천 상륙 작전 성공과 서울 수복" },
+      { step: 3, text: "중국군의 참전과 1·4 후퇴" },
+      { step: 4, text: "소련의 휴전 제의와 정전 회담 시작" },
+      { step: 5, text: "이승만 정부의 반공 포로 석방" },
+      { step: 6, text: "정전 협정 체결 및 한·미 상호 방위 조약" }
+    ]
+  },
+  {
+    title: "4·19 혁명 전개 과정 순서 배열 (학습지 기출)",
+    items: [
+      { step: 1, text: "3·15 부정 선거와 1차 마산 시위" },
+      { step: 2, text: "마산 앞바다 김주열 학생 시신 발견과 2차 마산 시위" },
+      { step: 3, text: "4·19 시위대 경찰 발포 및 정부의 비상계엄 선포" },
+      { step: 4, text: "대학 교수단의 시국 선언문 발표 (4·25)" },
+      { step: 5, text: "이승만 대통령의 하야 성명 발표 (4·26)" }
+    ]
+  },
+  {
+    title: "유신 체제 붕괴 과정 순서 배열 (학습지 기출)",
+    items: [
+      { step: 1, text: "YH 무역 사건 (여성 노동자 신민당사 농성 강제 진압)" },
+      { step: 2, text: "여당의 김영삼 신민당 총재 국회의원직 제명" },
+      { step: 3, text: "부산과 마산 지역의 부·마 민주 항쟁 전개" },
+      { step: 4, text: "10·26 사태 (중앙정보부장 김재규가 박정희 피살)" }
+    ]
+  },
+  {
+    title: "5·18 광주 민주화 운동 전개 순서 (학습지 기출)",
+    items: [
+      { step: 1, text: "신군부의 5·17 비상계엄 전국 확대" },
+      { step: 2, text: "전남대학교 정문 시위 및 공수부대 폭력 진압 (5·18)" },
+      { step: 3, text: "계엄군의 시위대 무차별 발포 (5·20)" },
+      { step: 4, text: "광주 시민들의 시민군 조직 및 계엄군 외곽 철수 (5·21)" },
+      { step: 5, text: "시민 수습 대책 위원회 구성" },
+      { step: 6, text: "계엄군의 전남 도청 무력 진압 (5·27)" }
+    ]
+  },
+  {
+    title: "1987년 6월 민주항쟁 전개 순서 (학습지 기출)",
+    items: [
+      { step: 1, text: "박종철 고문치사 사건 발생 및 은폐 조작" },
+      { step: 2, text: "전두환 정부의 4·13 호헌 조치 발표" },
+      { step: 3, text: "민주 헌법 쟁취 국민운동본부 결성 (5·27)" },
+      { step: 4, text: "이한열 학생 최루탄 피격 (6·9)" },
+      { step: 5, text: "6·10 국민 대회 개최 및 시위 전국 확산" },
+      { step: 6, text: "6·29 민주화 선언 발표 (대통령 직선제 수용)" }
+    ]
+  }
+];
+
+
+const QUIZ_QUESTIONS = [
+  {
+    q: "1. 1951년 7월부터 시작된 6·25 전쟁 정전 회담에서 2년이 넘도록 합의하기 가장 어려웠던 두 가지 의제는?",
+    options: [
+      "배상금 지급 문제와 일본군 무장 해제 문제",
+      "휴전선(군사 분계선) 설정 문제와 포로 교환 방식 문제",
+      "주한미군 철수 시기와 경제 원조 규모 문제",
+      "신탁 통치 기간 문제와 총선거 감시단 파견 문제"
+    ],
+    answer: 1,
+    exp: "유엔군은 '현재 전선 기준·포로 자유 송환'을, 북·중은 '38도선 기준·포로 본국 자동 송환'을 주장해 2년간 대립했습니다."
+  },
+  {
+    q: "2. 1950년대 미국의 잉여 농산물 원조를 가공하며 발달한 소비재 공업(제분·제당·면방직)을 일컫는 말은?",
+    options: ["중화학 공업", "삼백 산업(三白産業)", "방위 산업", "천리마 산업"],
+    answer: 1,
+    exp: "밀가루(제분), 설탕(제당), 면화(면방직) 등 하얀 원료를 가공하는 삼백 산업이 발달했으나 정경유착과 농촌 피폐의 한계가 있었습니다."
+  },
+  {
+    q: "3. 1956년 제3대 대통령 선거 이후 이승만 정권이 반공을 내세워 평화 통일을 주장한 조봉암과 간부들을 간첩죄로 구속·사형시킨 사건은?",
+    options: ["국회 프락치 사건", "진보당 사건", "제2차 인혁당 사건", "부천서 성고문 사건"],
+    answer: 1,
+    exp: "1956년 대선에서 조봉암이 30% 가까운 표를 얻어 위협을 느낀 이승만 정권은 1958년 진보당 사건을 일으켜 정당 등록을 취소하고 조봉암을 사형시켰습니다."
+  },
+  {
+    q: "4. 5·16 군사 정변 세력이 헌정 질서를 중단시키고 국가 권력을 장악하기 위해 설치한 최고 통치 기구는?",
+    options: ["국가 보위 비상 대책 위원회", "통일 주체 국민 회의", "국가 재건 최고 회의", "반민족 행위 특별 조사 위원회"],
+    answer: 2,
+    exp: "5·16 군사 정변(1961) 세력은 '국가 재건 최고 회의'를 통해 군정을 실시하고 '중앙정보부'를 설치했습니다. (국보위는 1980년 전두환 신군부 기구입니다.)"
+  },
+  {
+    q: "5. 1972년 유신 헌법에 따라 대통령을 간선제로 선출하고, 대통령 추천으로 국회의원 정원의 1/3을 선출한 기구는?",
+    options: ["국가 보위 비상 대책 위원회", "통일 주체 국민 회의", "민주 헌법 쟁취 국민운동본부", "좌우 합작 위원회"],
+    answer: 1,
+    exp: "유신 헌법은 통일 주체 국민 회의에서 대통령을 간선제로 뽑고, 대통령 추천 국회의원(유신정우회) 1/3을 선출하게 하여 삼권 분립을 무력화했습니다."
+  },
+  {
+    q: "6. 5·18 광주 민주화 운동 이후 반미(反美) 운동이 격화되게 된 주된 이유는?",
+    options: [
+      "미국이 북한과 비밀리에 불가침 조약을 체결했기 때문이다.",
+      "국군의 작전 통제권을 가진 미국이 신군부의 광주 진압 병력 동원을 묵인·방조했다고 판단했기 때문이다.",
+      "미국이 한국에 대한 잉여 농산물 원조를 갑자기 중단했기 때문이다.",
+      "미국이 한·일 기본 조약 체결을 반대했기 때문이다."
+    ],
+    answer: 1,
+    exp: "당시 한국군의 작전 통제권을 쥔 미국이 신군부의 군대 이동을 승인·묵인했다고 인식되면서 부산 미국 문화원 방화 사건 등 반미 운동이 확산되었습니다."
+  },
+  {
+    q: "7. 전두환 정부 시기 언론의 보도 방향과 내용을 통제하기 위해 정부가 매일 언론사에 내려보낸 지침은?",
+    options: ["긴급조치", "보도지침", "브라운 각서", "4·13 호헌 조치"],
+    answer: 1,
+    exp: "전두환 정부는 언론 통폐합을 단행한 데 이어 문화공보부를 통해 매일 '보도지침'을 하달하여 기사 작성과 보도 여부를 통제했습니다."
+  }
+];
+</script>
+
+
+<script>
+  function safeGetStorage(key, fallback) {
+    try {
+      const val = window.localStorage.getItem(key);
+      return val ? JSON.parse(val) : fallback;
+    } catch (e) {
+      return fallback;
+    }
+  }
+
+
+  function safeSetStorage(key, val) {
+    try {
+      window.localStorage.setItem(key, JSON.stringify(val));
+    } catch (e) {}
+  }
+
+
+  let notesData = [];
+  let memorizedIds = safeGetStorage('kr_history_memorized', []);
+  let currentEra = 'ALL';
+  let currentOrderProblem = null;
+  let currentOrderState = [];
+  let quizScore = 0;
+
+
+  function init() {
+    const savedCustom = safeGetStorage('kr_history_custom_notes', []);
+    notesData = [...DEFAULT_NOTES, ...savedCustom];
+    renderNotes();
+    updateProgress();
+    initOrderGame();
+    renderQuiz();
+  }
+
+
+  function toggleBlindMode() {
+    document.body.classList.toggle('blind-mode');
+    const btn = document.getElementById('blindToggleBtn');
+    const isBlind = document.body.classList.contains('blind-mode');
+    btn.classList.toggle('btn-blind-active', isBlind);
+    btn.textContent = isBlind ? '👀 정답 모두 보기' : '🙈 암기 모드 (빈칸 가리기)';
+    document.querySelectorAll('.cloze').forEach(el => el.classList.remove('revealed'));
+  }
+
+
+  function parseCloze(text) {
+    return text.replace(/\[([^\]]+)\]/g, '<span class="cloze" onclick="this.classList.toggle('revealed')">$1</span>');
+  }
+
+
+  function filterNotes(era, btn) {
+    currentEra = era;
+    document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    renderNotes();
+  }
+
+
+  document.getElementById('searchInput').addEventListener('input', () => {
+    document.getElementById('r-tab-3').checked = true;
+    renderNotes();
+  });
+
+
+  function renderNotes() {
+    const container = document.getElementById('notesContainer');
+    const keyword = document.getElementById('searchInput').value.trim().toLowerCase();
+
+
+    const filtered = notesData.filter(item => {
+      const matchEra = currentEra === 'ALL' || item.era === currentEra;
+      const fullText = (item.title + ' ' + item.context + ' ' + item.bullets.join(' ') + ' ' + (item.tip || '')).toLowerCase();
+      const matchKeyword = !keyword || fullText.includes(keyword);
+      return matchEra && matchKeyword;
+    });
+
+
+    if (filtered.length === 0) {
+      container.innerHTML = '<div class="card" style="text-align:center; color:var(--text-sub);">검색 조건에 맞는 노트가 없습니다.</div>';
+      return;
+    }
+
+
+    const eraNames = {
+      '해방공간': '해방과 분단',
+      '정부수립': '정부수립·개혁',
+      '625전쟁': '6·25 전쟁',
+      '1_2공화국': '1·2공화국',
+      '3_4공화국': '박정희·유신',
+      '5_6공화국': '5·6공화국'
+    };
+
+
+    container.innerHTML = filtered.map(note => {
+      const isDone = memorizedIds.includes(note.id);
+      return `
+        <div class="card" style="${isDone ? 'border-color: var(--success); background: #fcfffd;' : ''}">
+          <div class="card-title">
+            <div>
+              <span class="era-tag" style="margin-right:6px;">${eraNames[note.era] || note.era}</span>
+              <span>${note.title}</span>
+            </div>
+            <button type="button" class="btn" style="${isDone ? 'background:var(--success); color:#fff; border-color:var(--success);' : ''}" onclick="toggleMemorized('${note.id}')">
+              ${isDone ? '✅ 암기 완료' : '⬜ 암기 체크'}
+            </button>
+          </div>
+          <div class="note-context-box">
+            <strong>💡 한 줄 맥락:</strong> ${note.context}
+          </div>
+          <ul class="note-list">
+            ${note.bullets.map(b => `<li>${parseCloze(b)}</li>`).join('')}
+          </ul>
+          ${note.tip ? `<div class="exam-tip">📌 ${note.tip}</div>` : ''}
+        </div>
+      `;
+    }).join('');
+  }
+
+
+  function toggleMemorized(id) {
+    if (memorizedIds.includes(id)) {
+      memorizedIds = memorizedIds.filter(i => i !== id);
+    } else {
+      memorizedIds.push(id);
+    }
+    safeSetStorage('kr_history_memorized', memorizedIds);
+    renderNotes();
+    updateProgress();
+  }
+
+
+  function updateProgress() {
+    const total = notesData.length;
+    const done = memorizedIds.filter(id => notesData.some(n => n.id === id)).length;
+    document.getElementById('progressText').textContent = `${done} / ${total} 단원`;
+    const pct = total ? Math.round((done / total) * 100) : 0;
+    document.getElementById('progressBar').style.width = `${pct}%`;
+  }
+
+
+  function initOrderGame() {
+    const randIdx = Math.floor(Math.random() * ORDER_PROBLEMS.length);
+    currentOrderProblem = ORDER_PROBLEMS[randIdx];
+    currentOrderState = [...currentOrderProblem.items].sort(() => Math.random() - 0.5);
+    document.getElementById('orderFeedback').textContent = '';
+    renderOrderList();
+  }
+
+
+  function renderOrderList() {
+    const listEl = document.getElementById('orderList');
+    listEl.innerHTML = `<div style="font-weight:800; margin-bottom:10px; color:var(--primary);">[문제] ${currentOrderProblem.title}</div>` +
+      currentOrderState.map((item, idx) => `
+        <div class="order-item">
+          <span>${idx + 1}. ${item.text}</span>
+          <div style="display:flex; gap:4px; flex-shrink:0;">
+            <button type="button" class="btn" onclick="moveOrder(${idx}, -1)" ${idx === 0 ? 'disabled' : ''}>▲</button>
+            <button type="button" class="btn" onclick="moveOrder(${idx}, 1)" ${idx === currentOrderState.length - 1 ? 'disabled' : ''}>▼</button>
+          </div>
+        </div>
+      `).join('');
+  }
+
+
+  function moveOrder(idx, dir) {
+    const target = idx + dir;
+    if (target < 0 || target >= currentOrderState.length) return;
+    const temp = currentOrderState[idx];
+    currentOrderState[idx] = currentOrderState[target];
+    currentOrderState[target] = temp;
+    renderOrderList();
+  }
+
+
+  function checkOrderGame() {
+    const isCorrect = currentOrderState.every((item, idx) => item.step === idx + 1);
+    const fb = document.getElementById('orderFeedback');
+    if (isCorrect) {
+      fb.style.color = 'var(--success)';
+      fb.textContent = '🎉 완벽합니다! 시대 흐름이 정확하게 정렬되었습니다.';
+    } else {
+      fb.style.color = 'var(--danger)';
+      fb.textContent = '❌ 순서가 틀린 곳이 있습니다. 2번 탭의 연상 공식을 떠올려 보세요!';
+    }
+  }
+
+
+  function renderQuiz() {
+    quizScore = 0;
+    updateQuizBadge();
+    const container = document.getElementById('quizContainer');
+    container.innerHTML = QUIZ_QUESTIONS.map((qObj, qIdx) => `
+      <div style="margin-bottom:22px; padding-bottom:18px; border-bottom:1px solid var(--border);">
+        <div style="font-weight:700; margin-bottom:10px; font-size:0.98rem;">${qObj.q}</div>
+        <div id="q-opts-${qIdx}">
+          ${qObj.options.map((opt, oIdx) => `
+            <button type="button" class="quiz-option" onclick="answerQuiz(${qIdx}, ${oIdx}, this)">${oIdx + 1}) ${opt}</button>
+          `).join('')}
+        </div>
+        <div id="q-exp-${qIdx}" style="display:none; margin-top:8px; padding:10px 12px; background:#f1f5f9; border-radius:8px; font-size:0.88rem; color:var(--text-sub);"></div>
+      </div>
+    `).join('');
+  }
+
+
+  function answerQuiz(qIdx, oIdx, btn) {
+    const optsWrap = document.getElementById(`q-opts-${qIdx}`);
+    if (optsWrap.dataset.answered) return;
+    optsWrap.dataset.answered = 'true';
+
+
+    const qObj = QUIZ_QUESTIONS[qIdx];
+    const buttons = optsWrap.querySelectorAll('.quiz-option');
+
+
+    if (oIdx === qObj.answer) {
+      btn.classList.add('correct');
+      quizScore++;
+    } else {
+      btn.classList.add('wrong');
+      buttons[qObj.answer].classList.add('correct');
+    }
+
+
+    const expEl = document.getElementById(`q-exp-${qIdx}`);
+    expEl.style.display = 'block';
+    expEl.innerHTML = `<strong>해설:</strong> ${qObj.exp}`;
+    updateQuizBadge();
+  }
+
+
+  function updateQuizBadge() {
+    document.getElementById('quizScoreBadge').textContent = `점수: ${quizScore} / ${QUIZ_QUESTIONS.length}`;
+  }
+
+
+  function addNewNote() {
+    const era = document.getElementById('newEra').value;
+    const title = document.getElementById('newTitle').value.trim();
+    const context = document.getElementById('newContext').value.trim();
+    const bulletsRaw = document.getElementById('newBullets').value.trim();
+    const tip = document.getElementById('newTip').value.trim();
+
+
+    if (!title || !bulletsRaw) {
+      alert('제목과 핵심 암기 내용을 입력해 주세요!');
+      return;
+    }
+
+
+    const newItem = {
+      id: 'custom-' + Date.now(),
+      era,
+      title,
+      context: context || '추가된 학습 자료 핵심 정리',
+      bullets: bulletsRaw.split('\n').map(line => line.trim()).filter(Boolean),
+      tip
+    };
+
+
+    const savedCustom = safeGetStorage('kr_history_custom_notes', []);
+    savedCustom.push(newItem);
+    safeSetStorage('kr_history_custom_notes', savedCustom);
+
+
+    notesData.push(newItem);
+    renderNotes();
+    updateProgress();
+
+
+    document.getElementById('newTitle').value = '';
+    document.getElementById('newContext').value = '';
+    document.getElementById('newBullets').value = '';
+    document.getElementById('newTip').value = '';
+
+
+    alert('✅ 정리노트에 추가되었습니다! 깃허브에도 반영하려면 아래 [업데이트된 index.html 다운로드] 버튼을 눌러주세요.');
+  }
+
+
+  function exportUpdatedHTML() {
+    const docClone = document.documentElement.cloneNode(true);
+    const dataScript = docClone.querySelector('#app-data-script');
+    dataScript.textContent = `
+const DEFAULT_NOTES = ${JSON.stringify(notesData, null, 2)};
+const ORDER_PROBLEMS = ${JSON.stringify(ORDER_PROBLEMS, null, 2)};
+const QUIZ_QUESTIONS = ${JSON.stringify(QUIZ_QUESTIONS, null, 2)};
+    `;
+    docClone.querySelector('#orderList').innerHTML = '';
+    docClone.querySelector('#quizContainer').innerHTML = '';
+
+
+    const htmlContent = '<!DOCTYPE html>\n' + docClone.outerHTML;
+    const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'index.html';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+
+  init();
+</script>
+</body>
+</html>
